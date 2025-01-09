@@ -1,18 +1,18 @@
-<div class="h-screen w-screnn flex flex-col">
-    <header class="w-full px-20 h-16 border-b border-zinc-300 flex items-center justify-center">
-        header
-    </header>
+<div class="h-screen w-screen flex">
+    <x-aside.left-sidebar/>
 
+    <div class="flex-1 flex-col bg-primary">
+        <x-header.header/>
 
-    <div class="flex">
-        <aside class="w-[250px] border-r border-zinc-400 p-4 h-[calc(100vh-64px)]">
-            sidebar
-        </aside>
-
-        <main class="flex-1 p-5">
-            <div class="bg-primary">
+        <div class="grid grid-cols-12 justify-between">
+            <main class="bg-primary col-span-9 p-5">
                 {{ $slot }}
-            </div>
-        </main>
+            </main>
+
+            <x-aside.right-sidebar/>
+        </div>
     </div>
 </div>
+</div>
+
+

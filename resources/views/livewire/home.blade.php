@@ -1,5 +1,5 @@
 <x-layouts.layout>
     <div>
-        Zafer
+        Anasayfa Formlar
     </div>
 </x-layouts.layout>
