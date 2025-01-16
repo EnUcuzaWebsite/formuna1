@@ -53,7 +53,7 @@
 
             <div class="flex flex-col gap-y-2">
                 <h3 class="font-medium">2024 F1 Lansman Araçları</h3>
-                <p class="text-zinc-200 text-xs">
+                <p class="text-zinc-200 text-sm">
                     Bu sezon lansmanlarında en çok dikkatimi çeken Mercedes'in radikal tasarım değişiklikleri oldu.
                     Özellikle sidepod tasarımı ve arka süspansiyon çözümü oldukça ilginç. Sizce bu değişiklikler Red
                     Bull
@@ -93,7 +93,7 @@
 
             <div class="flex flex-col gap-y-2">
                 <h3 class="font-medium">2024 F1 Lansman Araçları</h3>
-                <p class="text-zinc-200 text-xs">
+                <p class="text-zinc-200 text-sm">
                     Bu sezon lansmanlarında en çok dikkatimi çeken Mercedes'in radikal tasarım değişiklikleri oldu.
                     Özellikle sidepod tasarımı ve arka süspansiyon çözümü oldukça ilginç. Sizce bu değişiklikler Red
                     Bull
@@ -133,7 +133,7 @@
 
             <div class="flex flex-col gap-y-2">
                 <h3 class="font-medium">2024 F1 Lansman Araçları</h3>
-                <p class="text-zinc-200 text-xs">
+                <p class="text-zinc-200 text-sm">
                     Bu sezon lansmanlarında en çok dikkatimi çeken Mercedes'in radikal tasarım değişiklikleri oldu.
                     Özellikle sidepod tasarımı ve arka süspansiyon çözümü oldukça ilginç. Sizce bu değişiklikler Red
                     Bull
