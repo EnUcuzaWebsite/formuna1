@@ -5,7 +5,7 @@
         <x-header.header/>
 
         <div class="grid grid-cols-12 justify-between">
-            <main class="bg-primary col-span-9 p-5">
+            <main class="bg-primary col-span-9 p-5 w-full h-[calc(100vh-80px)] overflow-auto">
                 {{ $slot }}
             </main>
 
