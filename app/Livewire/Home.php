@@ -2,18 +2,23 @@
 
 namespace App\Livewire;
 
+use App\Models\Post;
+use Auth;
 use Livewire\Component;
 
 class Home extends Component
 {
-    public $users =[
-        "zafer",
-        "lider",
-        "kutay",
-    ];
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect()->route('login');
+    }
 
     public function render()
     {
-        return view('livewire.home');
+        $posts = Post::paginate(6);
+
+        return view('livewire.home', compact('posts'));
     }
 }

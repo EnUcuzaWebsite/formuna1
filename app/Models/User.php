@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'name',
+        'bio',
+        'avatar',
     ];
 
     /**
@@ -44,5 +50,55 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function forms()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(UserActivity::class);
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'reporter_id');
+    }
+
+    public function likedForms()
+    {
+        return $this->hasMany(LikedPost::class);
+    }
+
+    public function savedForms()
+    {
+        return $this->hasMany(SavedPost::class);
+    }
+
+    public function favoriteTopics()
+    {
+        return $this->hasMany(FavoriteTopic::class);
+    }
+
+    public function favoriteCategories()
+    {
+        return $this->hasMany(FavoriteCategory::class);
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followed_id');
+    }
+
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->status === 'active';
     }
 }

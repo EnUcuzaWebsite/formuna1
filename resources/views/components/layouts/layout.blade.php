@@ -1,4 +1,4 @@
-<div class="h-screen w-screen flex">
+<div class="h-screen w-screen flex" x-data="{ sidebarContent: 'default' }" >
     <x-aside.left-sidebar/>
 
     <div class="flex-1 flex-col bg-primary">
@@ -9,7 +9,7 @@
                 {{ $slot }}
             </main>
 
-            <x-aside.right-sidebar/>
+            <x-aside.right-sidebar :selectedPost="null"/>
         </div>
     </div>
 </div>
