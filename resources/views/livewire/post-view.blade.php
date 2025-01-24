@@ -1,7 +1,7 @@
 <!--  Buna tıklandığında right sidebar post -->
-<section
+<button
     class="flex w-full gap-x-3 hover:bg-gray-800 transition-colors duration-300 rounded-lg p-4 mt-6 bg-secondary cursor-pointer"
-    wire:click="$dispatch('post-selected', { postId: {{ $post->id }} })"
+    wire:click="detail"
     >
     <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
         <x-icon class="size-4" name="heroicon-o-user"/>
@@ -37,4 +37,4 @@
             </li>
         </ul>
     </div>
-</section>
+</button>

@@ -7,17 +7,23 @@ use Livewire\Component;
 
 class RightSidebar extends Component
 {
-
-    public $selectedPost = null;
+    public ?Post $selectedPost = null;
 
     protected $listeners = [
-        'post-selected' => 'showPostDetails'
+        "post-selected" => 'showPostDetails'
     ];
 
-    public function showPostDetails($event)
+    public function showPostDetails(Post $selectedPost)
     {
-        $this->selectedPost = Post::find($event['postId']);
+        $this->selectedPost = $selectedPost;
     }
+
+    public function clearSelectedPost()
+    {
+        $this->selectedPost = null;
+    }
+
+
 
     public function render()
     {

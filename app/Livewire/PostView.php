@@ -9,6 +9,11 @@ class PostView extends Component
 {
     public Post $post;
 
+    public function detail()
+    {
+        $this->dispatch("post-selected", $this->post);
+    }
+
     public function mount(Post $post)
     {
         $this->post = $post;

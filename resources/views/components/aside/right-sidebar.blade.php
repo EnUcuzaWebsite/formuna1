@@ -21,18 +21,15 @@
 
         @if ($selectedPost)
         <!-- Post Details Content -->
-            <div style="display: none;">
+            <div ">
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
                         <h2 class="text-lg font-bold">Gönderi Detayları</h2>
-                        <button class="text-gray-400 hover:text-white">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
+                        <button wire:click="clearSelectedPost" class="text-gray-300 hover:text-white">
+                            <x-icon name="heroicon-c-x-mark" class="size-6" />
                         </button>
                     </div>
-                    <!-- Post details will be loaded here -->
+                        Yorumlarrrrs
                 </div>
             </div>
         @endif
