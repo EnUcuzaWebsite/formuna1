@@ -8,9 +8,11 @@ use Livewire\Component;
 class RightSidebar extends Component
 {
     public ?Post $selectedPost = null;
+    public ?bool $showNotifications = false;
 
     protected $listeners = [
-        "post-selected" => 'showPostDetails'
+        "post-selected" => 'showPostDetails',
+        "notification-selected" => 'notificationSelected',
     ];
 
     public function showPostDetails(Post $selectedPost)
@@ -18,9 +20,16 @@ class RightSidebar extends Component
         $this->selectedPost = $selectedPost;
     }
 
-    public function clearSelectedPost()
+    public function notificationSelected()
     {
         $this->selectedPost = null;
+        $this->showNotifications = true;
+    }
+
+    public function clearSelected()
+    {
+        $this->selectedPost = null;
+        $this->showNotifications = false;
     }
 
 

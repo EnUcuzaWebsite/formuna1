@@ -10,7 +10,7 @@
 
 </head>
 
-<body class=" text-white">
+<body class=" text-white dark">
     {{ $slot }}
     @filamentScripts
     @livewire('notifications')

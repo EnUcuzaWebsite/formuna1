@@ -36,6 +36,7 @@ class CreateButton extends Component implements HasActions, HasForms
                         ->required(),
                     Select::make('category_id')
                         ->label('Kategori')
+                        ->extraAttributes(['class' => 'text-white '])
                         ->native(false)
                         ->live()
                         ->options(Category::all()->pluck('name', 'id'))
@@ -43,7 +44,8 @@ class CreateButton extends Component implements HasActions, HasForms
                     Select::make('topic_id')
                         ->label('Konu')
                         ->native(false)
-                        ->options(fn (Get $get) => $get('category_id') ? Topic::where('category_id', $get('category_id'))->get()->pluck('name', 'id') : [])
+                        ->disabled(fn(Get $get) => !$get('category_id'))
+                        ->options(fn(Get $get) => $get('category_id') ? Topic::where('category_id', $get('category_id'))->get()->pluck('name', 'id') : [])
                         ->required(),
                     RichEditor::make('content')
                         ->label('İçerik')
@@ -64,6 +66,7 @@ class CreateButton extends Component implements HasActions, HasForms
                     ->success()
                     ->icon('heroicon-o-document-text')
                     ->send();
+                redirect(route('home'));
             });
 
     }

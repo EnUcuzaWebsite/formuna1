@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -35,10 +36,18 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
         ]);
 
+        \App\Models\User::create([
+            'name' => 'Test Kullanıcı',
+            'email' => 'test@test.test',
+            'password' => '123',
+            'bio' => 'Hamilton fanıyım, Ferrari seviyom ve F1 seyircisiyim.',
+            'status' => 'active',
+        ]);
+
         foreach ($motorsportDrivers as $username) {
             \App\Models\User::create([
                 'name' => $username,
-                'email' => strtolower($username).'@example.com',
+                'email' => strtolower($username) . '@example.com',
                 'password' => bcrypt('password'),
                 'bio' => fake()->sentence(20),
                 'status' => 'active',
@@ -94,6 +103,16 @@ class DatabaseSeeder extends Seeder
                 'content' => fake()->paragraphs(rand(3, 6), true),
                 'views' => rand(0, 1000),
                 'status' => 'active',
+            ]);
+
+        }
+
+        // Create fake comments for posts
+        for ($i = 0; $i < 100; $i++) {
+            Comment::create([
+                'user_id' => rand(1, 10),
+                'post_id' => rand(1, 30),
+                'comment' => fake()->sentence(rand(10, 20)),
             ]);
         }
 

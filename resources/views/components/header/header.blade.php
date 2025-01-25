@@ -23,19 +23,36 @@ $name = User::find(auth()->user()->id)->name;
 
         <div class="flex items-center gap-x-3">
             <div class="flex items-center gap-x-4">
-                <x-icon class="size-5 text-zinc-400 hover:text-white cursor-pointer" name="heroicon-o-bell"/>
+                <button wire:click="notification">
+                    <x-icon class="size-5 text-zinc-400 hover:text-white cursor-pointer" name="heroicon-o-bell"/>
+                </button>
                 @livewire('create-button')
 
             </div>
 
             <div class="h-8 w-px bg-gray-800"></div>
 
-            <div class="flex items-center gap-x-2 cursor-pointer hover:bg-gray-800 px-3 py-2 rounded-md">
+            <button x-data="{ profileOpen: false }" @click="profileOpen = !profileOpen" @click.away="profileOpen = false" class="flex relative items-center gap-x-2 cursor-pointer hover:bg-gray-800 px-3 py-2 rounded-md">
                 <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
                     <x-icon class="size-4" name="heroicon-o-user"/>
                 </div>
                 <span class="text-sm font-medium"> {{ $name }} </span>
-            </div>
+
+                <div x-show="profileOpen" x-cloak class="bg-gray-800 rounded-md p-4 absolute top-full w-full">
+                    <ul>
+                        <li>tema</li>
+                        <li>profil</li>
+                        @if ($is_admin)
+                            <li><a href="/admin">Admin Panel</a></li>
+
+                        @endif
+                        <li>çıkış</li>
+                    </ul>
+
+                </div>
+            </button>
+
+
 
             <button wire:click="logout" class="text-sm font-medium">Logout</button>
         </div>
