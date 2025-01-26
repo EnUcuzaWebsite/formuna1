@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +17,7 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
+    use HasPanelShield;
     /**
      * The attributes that are mass assignable.
      *
@@ -27,6 +29,7 @@ class User extends Authenticatable implements FilamentUser
         'password',
         'name',
         'bio',
+        'status',
         'avatar',
     ];
 
@@ -100,7 +103,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->email === 'zafer@bilen.dev';
+        return $this->hasRole('super_admin') || $this->hasRole('Panel Admin');
     }
 
 }

@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
         ]);
 
+
         \App\Models\User::create([
             'name' => 'Test Kullanıcı',
             'email' => 'test@test.test',
