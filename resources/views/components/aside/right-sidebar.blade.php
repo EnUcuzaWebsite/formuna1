@@ -21,26 +21,34 @@
 
         @if ($selectedPost)
         <!-- Post Details Content -->
-            <div ">
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-bold">Gönderi Detayları</h2>
-                        <button wire:click="clearSelected" class="text-gray-300 hover:text-white">
-                            <x-icon name="heroicon-c-x-mark" class="size-6" />
-                        </button>
+                <div class=" h-full flex flex-col">
+                    <div class="space-y-4 flex-grow">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-bold">Gönderi Detayları</h2>
+                            <button wire:click="clearSelected" class="text-gray-300 hover:text-white">
+                                <x-icon name="heroicon-c-x-mark" class="size-6" />
+                            </button>
+                        </div>
+                        @foreach ($selectedPost->comments as $comment)
+                            <div class="flex flex-col">
+                                <ul class="flex flex-col gap-y-3">
+                                    <li class="p-3 rounded-md bg-gray-800 flex flex-col gap-y-2">
+                                        <div class="flex justify-between items-center w-full">
+                                            <span class="text-sm text-gray-300">{{ $comment->user->name }}</span>
+                                            <span class="text-[10px] text-gray-300">{{ $comment->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        <p class="text-xs">{{ $comment->comment }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endforeach
                     </div>
-                    @foreach ( $selectedPost->comments as $comment)
-                        <ul>
-                            <li>
-                                <span class="text-sm">{{ $comment->user->name }}:</span>
-                                <br>
-                                {{ $comment->comment }}
-                            </li>
-                        </ul>
-                    @endforeach
+                    <!-- Alt kısım -->
+                    <div class="mt-auto p-4 bg-gray-900 text-center text-white">
+                        bottom
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
 
         @if ($showNotifications)
             <div class="space-y-4">
@@ -95,64 +103,5 @@
                 </div>
             </div>
         @endif
-
-
-        <!-- Notifications Content -->
-        {{-- <div x-show="sidebarContent === 'notifications'" style="display: none;">
-            <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-lg font-bold">Bildirimler</h2>
-                    <button @click="sidebarContent = 'default'" class="text-gray-400 hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="space-y-2">
-                    <!-- Example notifications -->
-                    <div class="bg-gray-800 rounded-lg p-4">
-                        <div class="flex items-start space-x-3">
-                            <div
-                                class="w-8 h-8 rounded-full bg-gray-700 flex-shrink-0 flex items-center justify-center">
-                                <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-300">
-                                    <span class="font-medium text-white">Ahmet Yılmaz</span> gönderinizi beğendi
-                                </p>
-                                <span class="text-xs text-gray-400">2 saat önce</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-800 rounded-lg p-4">
-                        <div class="flex items-start space-x-3">
-                            <div
-                                class="w-8 h-8 rounded-full bg-gray-700 flex-shrink-0 flex items-center justify-center">
-                                <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-300">
-                                    <span class="font-medium text-white">Mehmet Demir</span> gönderinize yorum
-                                    yaptı
-                                </p>
-                                <span class="text-xs text-gray-400">5 saat önce</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </div>
 </aside>
