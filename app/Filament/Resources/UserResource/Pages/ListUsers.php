@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
+use Filament\Tables\Actions\ViewAction;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -39,8 +40,7 @@ class ListUsers extends ListRecords
                     ->label('Roles')
                     ->searchable()
                     ->sortable()
-                    ->listWithLineBreaks()
-                    ->bulleted(),
+                    ->listWithLineBreaks(),
                 IconColumn::make('status')
                     ->icon(fn(string $state): string => match ($state) {
                         'active' => 'heroicon-o-check-circle',
@@ -59,7 +59,7 @@ class ListUsers extends ListRecords
                 //
             ])
             ->actions([
-                EditAction::make(),
+                ViewAction::make(),
             ])
             ->bulkActions([
                 BulkActionGroup::make([

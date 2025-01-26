@@ -15,9 +15,7 @@ Route::get('/logout', function () {
 // Protected routes
 Route::group(['middleware' => 'auth'], function () {
     Volt::route('/', Home::class)->name('home');
-    Route::get('/admin', function () {
-        return redirect()->route('admin.dashboard');
-    })->name('admin');
+
 });
 
 require __DIR__ . '/auth.php';

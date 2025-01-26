@@ -17,11 +17,14 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Livewire\Component;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class CreateButton extends Component implements HasActions, HasForms
 {
     use InteractsWithActions;
     use InteractsWithForms;
+
 
     public function modalAction()
     {
