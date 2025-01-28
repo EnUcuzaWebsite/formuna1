@@ -8,14 +8,15 @@ use App\Models\User;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
-use Filament\Resources\Resource;
 use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Resource;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
     protected static ?int $navigationSort = 1;
+
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
@@ -29,7 +30,6 @@ class UserResource extends Resource
                     ->required(),
             ]);
     }
-
 
     public static function getRelations(): array
     {

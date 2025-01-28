@@ -10,19 +10,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\Image\Enums\Fit;
 
 class User extends Authenticatable implements FilamentUser, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
-    use HasRoles;
+
     use HasPanelShield;
+    use HasRoles;
     use InteractsWithMedia;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -58,6 +60,11 @@ class User extends Authenticatable implements FilamentUser, HasMedia
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function suspensions()
+    {
+        return $this->hasMany(UserSuspension::class);
     }
 
     public function forms()
@@ -129,36 +136,22 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         return "https://ui-avatars.com/api/?name={$this->name}&background=E4E4E4";
     }
 
-
-    public function suspend()
-    {
-        $this->update(['status' => 'suspended']);
-    }
-
-    public function activate()
-    {
-        $this->update(['status' => 'active']);
-    }
-
-    public function ban()
-    {
-        $this->update(['status' => 'banned']);
-    }
-
     public function isActive(): bool
     {
-        return $this->status === 'active';
+        return ! $this->suspensions()->where('expires_at', '>', now())->exists();
     }
 
     public function isSuspended(): bool
     {
-        return $this->status === 'suspended';
+        return $this->suspensions()->where('status', 'suspended')
+            ->where('expires_at', '>', now())
+            ->exists();
     }
 
     public function isBanned(): bool
     {
-        return $this->status === 'banned';
+        return $this->suspensions()->where('status', 'suspended')
+            ->where('expires_at', '>', now())
+            ->exists();
     }
-
 }
-

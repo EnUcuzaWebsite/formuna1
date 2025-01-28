@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use Filament\Actions;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -17,7 +16,6 @@ class CreateUser extends CreateRecord
     protected static string $resource = UserResource::class;
 
     protected static ?string $title = 'Kullanıcı Oluştur';
-
 
     public function form(Form $form): Form
     {
@@ -37,7 +35,7 @@ class CreateUser extends CreateRecord
                                 'class' => 'h-40 w-40  justify-center items-center',
                             ])
                             ->hiddenLabel()
-                            ->acceptedFileTypes(['image/*'])
+                            ->acceptedFileTypes(['image/*']),
 
                     ]),
 
@@ -66,8 +64,7 @@ class CreateUser extends CreateRecord
                             ->default('active')
                             ->options([
                                 'active' => 'Active',
-                                'suspended' => 'Suspended',
-                                'banned' => 'Banned',
+                                'inactive' => 'Inactive',
                             ])
                             ->required(),
 
@@ -78,15 +75,14 @@ class CreateUser extends CreateRecord
                             ->preload()
                             ->searchable()
                             ->options(
-                                fn() => Role::query()
+                                fn () => Role::query()
                                     ->when(
-                                        !auth()->user()?->hasRole('super_admin'),
-                                        fn($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
+                                        ! auth()->user()?->hasRole('super_admin'),
+                                        fn ($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
                                     )
                                     ->pluck('name', 'id')
-                            )
+                            ),
                     ]),
             ]);
     }
-
 }

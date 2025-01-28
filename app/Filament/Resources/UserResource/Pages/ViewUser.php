@@ -14,7 +14,6 @@ class ViewUser extends ViewRecord
 {
     protected static string $resource = UserResource::class;
 
-
     public function getHeaderActions(): array
     {
         return [
@@ -53,15 +52,13 @@ class ViewUser extends ViewRecord
                             ->bulleted()
                             ->listWithLineBreaks(),
                         IconEntry::make('status')
-                            ->icon(fn(string $state): string => match ($state) {
+                            ->icon(fn (string $state): string => match ($state) {
                                 'active' => 'heroicon-o-check-circle',
-                                'suspended' => 'heroicon-o-clock',
-                                'banned' => 'heroicon-o-no-symbol',
+                                'inactive' => 'heroicon-o-x-circle',
                             })
-                            ->color(fn(string $state): string => match ($state) {
+                            ->color(fn (string $state): string => match ($state) {
                                 'active' => 'success',
-                                'suspended' => 'warning',
-                                'banned' => 'danger',
+                                'inactive' => 'danger',
                                 default => 'gray',
                             }),
                     ]),
@@ -73,8 +70,6 @@ class ViewUser extends ViewRecord
                             ->hiddenLabel()
                             ->columnSpan(3),
                     ]),
-
-
 
             ]);
     }

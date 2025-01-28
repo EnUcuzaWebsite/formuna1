@@ -3,17 +3,17 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Toggle;
-use Illuminate\Database\Eloquent\Model;
 use Filament\Actions;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
-use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Get;
+use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 
 class EditUser extends EditRecord
@@ -32,14 +32,13 @@ class EditUser extends EditRecord
         return $this->record->name;
     }
 
-
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         unset($data['change_password']);
         $record->update($data);
+
         return $record;
     }
-
 
     public function form(Form $form): Form
     {
@@ -70,7 +69,7 @@ class EditUser extends EditRecord
 
                 Fieldset::make('Password')
                     ->columnSpan(1)
-                    ->visible(fn() => auth()->user()?->hasRole('super_admin'))
+                    ->visible(fn () => auth()->user()?->hasRole('super_admin'))
                     ->extraAttributes([
                         'class' => 'h-full',
                     ])
@@ -84,7 +83,7 @@ class EditUser extends EditRecord
                             ->password()
                             ->revealable()
                             // ->disabled(fn(Get $get) => !$get('change_password'))
-                            ->visible(fn(Get $get) => auth()->user()?->hasRole('super_admin') && $get('change_password'))
+                            ->visible(fn (Get $get) => auth()->user()?->hasRole('super_admin') && $get('change_password'))
                             ->columnSpanFull()
                             ->required(),
                     ]),
@@ -99,8 +98,7 @@ class EditUser extends EditRecord
                             ->label('Status')
                             ->options([
                                 'active' => 'Active',
-                                'suspended' => 'Suspended',
-                                'banned' => 'Banned',
+                                'inactive' => 'Inactive',
                             ])
                             ->required(),
                         Select::make('roles')
@@ -110,16 +108,15 @@ class EditUser extends EditRecord
                             ->preload()
                             ->searchable()
                             ->options(
-                                fn() => Role::query()
+                                fn () => Role::query()
                                     ->when(
-                                        !auth()->user()?->hasRole('super_admin'),
-                                        fn($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
+                                        ! auth()->user()?->hasRole('super_admin'),
+                                        fn ($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
                                     )
                                     ->pluck('name', 'id')
                             )
-                            ->disabled(fn() => (!auth()->user()?->hasRole('super_admin') && $this->record->hasRole('super_admin')) || ($this->record->hasRole('Panel Admin') && auth()->user()?->hasRole('Panel Admin'))),
+                            ->disabled(fn () => (! auth()->user()?->hasRole('super_admin') && $this->record->hasRole('super_admin')) || ($this->record->hasRole('Panel Admin') && auth()->user()?->hasRole('Panel Admin'))),
                     ]),
-
 
                 RichEditor::make('bio')
                     ->label('Biografi')

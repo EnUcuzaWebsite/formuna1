@@ -17,14 +17,11 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Livewire\Component;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class CreateButton extends Component implements HasActions, HasForms
 {
     use InteractsWithActions;
     use InteractsWithForms;
-
 
     public function modalAction()
     {
@@ -47,8 +44,8 @@ class CreateButton extends Component implements HasActions, HasForms
                     Select::make('topic_id')
                         ->label('Konu')
                         ->native(false)
-                        ->disabled(fn(Get $get) => !$get('category_id'))
-                        ->options(fn(Get $get) => $get('category_id') ? Topic::where('category_id', $get('category_id'))->get()->pluck('name', 'id') : [])
+                        ->disabled(fn (Get $get) => ! $get('category_id'))
+                        ->options(fn (Get $get) => $get('category_id') ? Topic::where('category_id', $get('category_id'))->get()->pluck('name', 'id') : [])
                         ->required(),
                     RichEditor::make('content')
                         ->label('İçerik')
