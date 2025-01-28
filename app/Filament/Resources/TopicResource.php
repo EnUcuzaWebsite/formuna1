@@ -3,20 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TopicResource\Pages;
-use App\Filament\Resources\TopicResource\RelationManagers;
 use App\Models\Topic;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TopicResource extends Resource
 {
     protected static ?string $model = Topic::class;
-
 
     protected static ?int $navigationSort = 3;
 

@@ -10,14 +10,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
-    use HasRoles;
+
     use HasPanelShield;
+    use HasRoles;
+    use InteractsWithMedia;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,7 +34,6 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'name',
         'bio',
         'status',
         'avatar',
@@ -54,6 +60,11 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function suspensions()
+    {
+        return $this->hasMany(UserSuspension::class);
     }
 
     public function forms()
@@ -106,5 +117,41 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasRole('super_admin') || $this->hasRole('Panel Admin');
     }
 
-}
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
+    }
 
+    public function getFilamentAvatarUrl($conversion = 'preview'): string
+    {
+
+        $media = $this->getFirstMedia('avatar');
+        if ($media) {
+            return $media->getUrl($conversion);
+        }
+
+        return "https://ui-avatars.com/api/?name={$this->name}&background=E4E4E4";
+    }
+
+    public function isActive(): bool
+    {
+        return ! $this->suspensions()->where('expires_at', '>', now())->exists();
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->suspensions()->where('status', 'suspended')
+            ->where('expires_at', '>', now())
+            ->exists();
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->suspensions()->where('status', 'suspended')
+            ->where('expires_at', '>', now())
+            ->exists();
+    }
+}
