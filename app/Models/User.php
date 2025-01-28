@@ -128,7 +128,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     public function getFilamentAvatarUrl($conversion = 'preview'): string
     {
 
-        $media = $this->getFirstMedia('avatar');
+        $media = $this->getFirstMedia();
         if ($media) {
             return $media->getUrl($conversion);
         }

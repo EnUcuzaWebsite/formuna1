@@ -14,32 +14,33 @@
             "path" => "home",
             "icon" => "bookmark",
             "title" => "Kaydedilenler",
-        ]
+        ],
+        [
+            "path" => "home",
+            "icon" => "heart",
+            "title" => "Beğenilenler",
+        ],
+        [
+            "path" => "home",
+            "icon" => "bars-3",
+            "title" => "Kategoriler",
+        ],
+        [
+            "path" => "home",
+            "icon" => "users",
+            "title" => "Üyeliklerin",
+        ],
+        [
+            "path" => "home",
+            "icon" => "user-plus",
+            "title" => "Takip Edilenler",
+        ],
+        [
+            "path" => "home",
+            "icon" => "cog",
+            "title" => "Ayarlar",
+        ],
     ];
-
-    $categories = [
-        [
-            "name" => "Formula 1",
-            "entry" => "156"
-        ],
-        [
-            "name" => "Formula 1",
-            "entry" => "156"
-        ],
-        [
-            "name" => "Formula 1",
-            "entry" => "156"
-        ],
-        [
-            "name" => "Formula 1",
-            "entry" => "156"
-        ],
-        [
-            "name" => "hamiltoncular",
-            "entry" => "+8"
-        ],
-    ];
-
 ?>
 
 <aside class="h-screen w-[19rem] bg-secondary p-5 overflow-auto">
@@ -60,8 +61,4 @@
             </li>
         @endforeach
     </ul>
-
-    <x-aside.components.dropdown-menu title="KATEGORILER" icon="heroicon-o-bars-3" :list=$categories />
-    <x-aside.components.dropdown-menu title="UYELIK" icon="heroicon-o-users" :list=$categories />
-
 </aside>

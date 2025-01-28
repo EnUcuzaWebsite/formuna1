@@ -1,18 +1,40 @@
-<aside class="col-span-3 bg-secondary p-5 h-[calc(100vh-80px)]">
-    <div class="p-4 h-full overflow-y-auto">
+<?php
+$categories = [
+    [
+        "name" => "Formula 1",
+        "entry" => "156"
+    ],
+    [
+        "name" => "Formula 1",
+        "entry" => "156"
+    ],
+    [
+        "name" => "Formula 1",
+        "entry" => "156"
+    ],
+    [
+        "name" => "Formula 1",
+        "entry" => "156"
+    ],
+    [
+        "name" => "hamiltoncular",
+        "entry" => "+8"
+    ],
+];
+
+?>
+
+
+<aside class="col-span-3 bg-secondary h-[calc(100vh-80px)]">
+    <div class="h-full overflow-y-auto">
 
         @if (!$selectedPost && !$showNotifications)
-        <!-- Default Content -->
+            <!-- Default Content -->
             <div x-show="sidebarContent === 'default'">
-                <div class="flex items-center justify-center h-full text-gray-400">
-                    <div class="text-center">
-                        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                        <p class="text-lg">Sağ menü içeriği burada görüntülenecek</p>
-                        <p class="text-sm mt-2">Bir gönderi seçin veya bildirimlerinizi kontrol edin</p>
+            <div class="flex h-full text-gray-400">
+                    <div class="w-full px-4">
+                        <x-aside.components.dropdown-menu title="KATEGORILER" icon="heroicon-o-bars-3" :list=$categories/>
+                        <x-aside.components.dropdown-menu title="UYELIK" icon="heroicon-o-users" :list=$categories/>
                     </div>
                 </div>
             </div>
@@ -20,42 +42,43 @@
 
 
         @if ($selectedPost)
-        <!-- Post Details Content -->
-                <div class=" h-full flex flex-col">
-                    <div class="space-y-4 flex-grow">
-                        <div class="flex items-center justify-between">
-                            <h2 class="text-lg font-bold">Gönderi Detayları</h2>
-                            <button wire:click="clearSelected" class="text-gray-300 hover:text-white">
-                                <x-icon name="heroicon-c-x-mark" class="size-6" />
-                            </button>
-                        </div>
+            <!-- Post Details Content -->
+            <div class=" h-full flex flex-col p-5">
+                <div class="space-y-4 flex-grow">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold">Gönderi Detayları</h2>
+                        <button wire:click="clearSelected" class="text-gray-300 hover:text-white">
+                            <x-icon name="heroicon-c-x-mark" class="size-6"/>
+                        </button>
+                    </div>
+                    <div class="h-[530px] overflow-auto flex flex-col gap-y-3">
                         @foreach ($selectedPost->comments as $comment)
-                            <div class="flex flex-col">
-                                <ul class="flex flex-col gap-y-3">
-                                    <li class="p-3 rounded-md bg-gray-800 flex flex-col gap-y-2">
-                                        <div class="flex justify-between items-center w-full">
-                                            <span class="text-sm text-gray-300">{{ $comment->user->name }}</span>
-                                            <span class="text-[10px] text-gray-300">{{ $comment->created_at->diffForHumans() }}</span>
-                                        </div>
-                                        <p class="text-xs">{{ $comment->comment }}</p>
-                                    </li>
-                                </ul>
-                            </div>
+                            <ul class="flex flex-col gap-y-3">
+                                <li class="p-3 rounded-md bg-gray-800 flex flex-col gap-y-2">
+                                    <div class="flex justify-between items-center w-full">
+                                        <span class="text-sm text-gray-300">{{ $comment->user->name }}</span>
+                                        <span
+                                            class="text-[10px] text-gray-300">{{ $comment->created_at->diffForHumans() }}</span>
+                                    </div>
+                                    <p class="text-xs">{{ $comment->comment }}</p>
+                                </li>
+                            </ul>
                         @endforeach
                     </div>
-                    <!-- Alt kısım -->
-                    <div class="mt-auto p-4 bg-gray-900 text-center text-white">
-                        bottom
-                    </div>
                 </div>
-            @endif
+                <!-- Alt kısım -->
+                <div class="mt-auto p-4 bg-gray-900 text-center text-white">
+                    bottom
+                </div>
+            </div>
+        @endif
 
         @if ($showNotifications)
-            <div class="space-y-4">
+            <div class="space-y-4 p-5">
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-bold">Bildirimler</h2>
                     <button wire:click="clearSelected" class="text-gray-300 hover:text-white">
-                        <x-icon name="heroicon-c-x-mark" class="size-6" />
+                        <x-icon name="heroicon-c-x-mark" class="size-6"/>
                     </button>
                 </div>
                 <div class="space-y-2">
@@ -65,9 +88,9 @@
                             <div
                                 class="w-8 h-8 rounded-full bg-gray-700 flex-shrink-0 flex items-center justify-center">
                                 <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
                                     </path>
                                 </svg>
                             </div>
@@ -85,9 +108,9 @@
                             <div
                                 class="w-8 h-8 rounded-full bg-gray-700 flex-shrink-0 flex items-center justify-center">
                                 <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
                                     </path>
                                 </svg>
                             </div>

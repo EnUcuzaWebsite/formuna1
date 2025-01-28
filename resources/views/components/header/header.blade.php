@@ -7,13 +7,13 @@ $name = User::find(auth()->user()->id)->name;
 $dropdownList = [
     [
         "title" => "Profil",
-        "icon" => "heroicon-o-user",
-        "route" => "home" //simdilik
+        "icon" => "users",
+        "route" => "home"
     ],
     [
         "title" => "Ayarlar",
-        "icon" => "heroicon-o-eva-settings-outline",
-        "route" => "home" //simdilik
+        "icon" => "cog",
+        "route" => "home"
     ],
 ]
 ?>
@@ -49,39 +49,38 @@ $dropdownList = [
             <button x-data="{ profileOpen: false }" @click="profileOpen = !profileOpen"
                     @click.away="profileOpen = false"
                     class="flex relative items-center gap-x-2 cursor-pointer hover:bg-gray-800 px-3 py-2 rounded-md">
-                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center">
-                    <x-icon class="size-4" name="heroicon-o-user"/>
-                </div>
+                <img src="{{ auth()->user()->getFilamentAvatarUrl() }}" class="rounded-full h-8 w-8" alt="">
                 <span class="text-sm font-medium"> {{ $name }} </span>
 
-                <div x-show="profileOpen" x-cloak class="bg-gray-800 rounded-md p-4 absolute top-full w-full">
+                <div x-show="profileOpen" x-cloak class="bg-gray-800 rounded-md p-4 z-50 absolute top-full w-full">
                     <ul class="flex flex-col gap-y-1 items-start text-sm">
                         @foreach($dropdownList as $item)
                             <li wire:click="{{ route($item["route"]) }}"
-                                class="block hover:bg-gray-600 p-2 cursor-pointer text-left rounded-md w-full flex justify-start gap-x-2 items-center">
-                                <x-icon name="{{ $item["icon"] }}" class="size-4"/>
+                                class="block hover:bg-gray-600 p-2 cursor-pointer text-left rounded-md w-full flex justify-start gap-x-5 items-center">
+                                <x-icon name="heroicon-o-{{ $item['icon'] }}" class="size-4"/>
                                 <span>
                                 {{ $item["title"] }}
                                 </span>
                             </li>
                         @endforeach
-
                         @if ($is_admin)
-                            <li class="block hover:bg-gray-600 p-2 text-left rounded-md w-full flex justify-start gap-x-2 items-center">
+                            <a href="/admin"
+                               class="block hover:bg-gray-600 p-2 text-left cursor-pointer rounded-md w-full flex justify-start gap-x-5 items-center">
                                 <x-icon name="heroicon-o-home" class="size-4"/>
                                 <span>
-                                Admin Paneli
+                                Admin
                             </span>
-                            </li>
+                            </a>
                         @endif
-                        <li class="block hover:bg-gray-600 p-2 text-left rounded-md w-full">Çıkış Yap</li>
+                        <li wire:click="logout"
+                            class="block flex items-center justify-between cursor-pointer hover:bg-gray-600 p-2 text-left rounded-md w-full">
+                            <x-icon class="size-4" name="heroicon-o-arrow-left-start-on-rectangle"/>
+                            <span>Çıkış Yap</span>
+                        </li>
                     </ul>
 
                 </div>
             </button>
-
-
-            <button wire:click="logout" class="text-sm font-medium">Logout</button>
         </div>
     </div>
 </header>
