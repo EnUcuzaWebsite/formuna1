@@ -39,7 +39,12 @@ class EditUser extends EditRecord
     {
         return $form
             ->schema([
-                SpatieMediaLibraryFileUpload::make('avatar'),
+                SpatieMediaLibraryFileUpload::make('avatar')
+                    ->label('Avatar')
+                    ->acceptedFileTypes(['image/*'])
+                    ->extraAttributes([
+                        'class' => 'h-',
+                    ]),
                 Fieldset::make('Overview')
                     ->columnSpan(1)
                     ->extraAttributes([

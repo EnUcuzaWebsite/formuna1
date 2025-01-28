@@ -15,6 +15,18 @@ class ViewUser extends ViewRecord
     protected static string $resource = UserResource::class;
 
 
+    public function getHeaderActions(): array
+    {
+        return [
+
+        ];
+    }
+
+    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    {
+        return $this->record->name;
+    }
+
     public function infolist(Infolist $infolist): Infolist
     {
         return $infolist
@@ -25,9 +37,10 @@ class ViewUser extends ViewRecord
                     ->extraAttributes(['class' => 'h-full flex items-center justify-center'])
                     ->circular()
                     ->columnSpan(1)
+                    ->defaultImageUrl($this->record->getFilamentAvatarUrl())
                     ->size(200),
 
-                Fieldset::make('İfo')
+                Fieldset::make('Overview')
                     ->columnSpan(2)
                     ->extraAttributes([
                         'class' => 'h-full',
@@ -52,6 +65,16 @@ class ViewUser extends ViewRecord
                                 default => 'gray',
                             }),
                     ]),
+
+                Fieldset::make('Biography')
+                    ->columnSpan(3)
+                    ->schema([
+                        TextEntry::make('bio')
+                            ->hiddenLabel()
+                            ->columnSpan(3),
+                    ]),
+
+
 
             ]);
     }

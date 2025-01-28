@@ -32,7 +32,6 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         'name',
         'email',
         'password',
-        'name',
         'bio',
         'status',
         'avatar',
@@ -119,5 +118,31 @@ class User extends Authenticatable implements FilamentUser, HasMedia
             ->nonQueued();
     }
 
+    public function getFilamentAvatarUrl($conversion = 'preview'): string
+    {
+
+        $media = $this->getFirstMedia('avatar');
+        if ($media) {
+            return $media->getUrl($conversion);
+        }
+
+        return "https://ui-avatars.com/api/?name={$this->name}&background=E4E4E4";
+    }
+
+
+    public function suspend()
+    {
+        $this->update(['status' => 'suspended']);
+    }
+
+    public function activate()
+    {
+        $this->update(['status' => 'active']);
+    }
+
+    public function ban()
+    {
+        $this->update(['status' => 'banned']);
+    }
 }
 
