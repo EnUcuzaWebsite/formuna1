@@ -144,5 +144,21 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     {
         $this->update(['status' => 'banned']);
     }
+
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->status === 'suspended';
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->status === 'banned';
+    }
+
 }
 

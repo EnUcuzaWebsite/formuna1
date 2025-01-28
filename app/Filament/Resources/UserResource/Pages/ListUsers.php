@@ -5,6 +5,8 @@ namespace App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\ViewAction;
 use Illuminate\Database\Eloquent\Collection;
@@ -24,10 +26,14 @@ class ListUsers extends ListRecords
     use ExposesTableToWidgets;
     protected static string $resource = UserResource::class;
 
+    protected static ?string $title = 'Kullanıcılar';
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Kullanıcı Olşutur')
+                ->icon('heroicon-o-plus-circle')
         ];
     }
 
@@ -53,6 +59,7 @@ class ListUsers extends ListRecords
                     ->sortable()
                     ->listWithLineBreaks(),
                 IconColumn::make('status')
+                    ->sortable()
                     ->icon(fn(string $state): string => match ($state) {
                         'active' => 'heroicon-o-check-circle',
                         'suspended' => 'heroicon-o-clock',
@@ -70,7 +77,34 @@ class ListUsers extends ListRecords
                 //
             ])
             ->actions([
-                ViewAction::make(),
+                ActionGroup::make([
+                    ViewAction::make()
+                        ->color('primary'),
+                    EditAction::make()
+                        ->color('info'),
+                    Action::make('activate')
+                        ->label('Activate')
+                        ->color('success')
+                        ->icon('heroicon-o-check-circle')
+                        ->requiresConfirmation()
+                        ->hidden(fn(Model $record) => $record->isActive())
+                        ->action(fn(Model $record) => $record->activate()),
+                    Action::make('suspend')
+                        ->label('Suspend')
+                        ->color('warning')
+                        ->icon('heroicon-o-clock')
+                        ->requiresConfirmation()
+                        ->hidden(fn(Model $record) => $record->isSuspended())
+                        ->action(fn(Model $record) => $record->suspend()),
+                    Action::make('ban')
+                        ->label('Ban')
+                        ->color('danger')
+                        ->icon('heroicon-o-no-symbol')
+                        ->requiresConfirmation()
+                        ->hidden(fn(Model $record) => $record->isBanned())
+                        ->action(fn(Model $record) => $record->ban()),
+
+                ]),
             ])
             ->bulkActions([
                 BulkActionGroup::make([

@@ -8,7 +8,6 @@ use Livewire\Volt\Volt;
 Volt::route('/login', 'pages.auth.login')->name('login');
 Route::get('/logout', function () {
     Auth::logout();
-
     return redirect()->route('login');
 })->name('logout');
 

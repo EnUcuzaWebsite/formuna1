@@ -27,6 +27,12 @@ class EditUser extends EditRecord
         ];
     }
 
+    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    {
+        return $this->record->name;
+    }
+
+
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         unset($data['change_password']);
