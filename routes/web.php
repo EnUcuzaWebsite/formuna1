@@ -14,7 +14,7 @@ Route::get('/logout', function () {
 // Protected routes
 Route::group(['middleware' => 'auth'], function () {
     Volt::route('/', Home::class)->name('home');
-
+    Volt::route('/post/{post}', \App\Livewire\PostDetail::class)->name('post.show');
 });
 
 require __DIR__.'/auth.php';
