@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
         foreach ($motorsportDrivers as $username) {
             \App\Models\User::create([
                 'name' => $username,
-                'email' => strtolower($username).'@example.com',
+                'email' => strtolower($username) . '@example.com',
                 'password' => bcrypt('password'),
                 'bio' => fake()->sentence(20),
                 'status' => 'active',
@@ -157,9 +157,19 @@ class DatabaseSeeder extends Seeder
         }
 
         // Create user activities
-        $activityTypes = ['post', 'like', 'comment', 'follow', 'save'];
+        $activityTypes = ['follow', 'report'];
         for ($i = 0; $i < 100; $i++) {
             \App\Models\UserActivity::create([
+                'user_id' => rand(1, 10),
+                'activity_type' => $activityTypes[array_rand($activityTypes)],
+                'target_id' => rand(1, 10),
+            ]);
+        }
+
+        // Create user post activities
+        $activityTypes = ['like', 'save', 'report'];
+        for ($i = 0; $i < 100; $i++) {
+            \App\Models\PostActivity::create([
                 'user_id' => rand(1, 10),
                 'activity_type' => $activityTypes[array_rand($activityTypes)],
                 'target_id' => rand(1, 30),

@@ -76,6 +76,10 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     {
         return $this->hasMany(UserActivity::class);
     }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
     public function reports()
     {
@@ -138,7 +142,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia
 
     public function isActive(): bool
     {
-        return ! $this->suspensions()->where('expires_at', '>', now())->exists();
+        return !$this->suspensions()->where('expires_at', '>', now())->exists();
     }
 
     public function isSuspended(): bool

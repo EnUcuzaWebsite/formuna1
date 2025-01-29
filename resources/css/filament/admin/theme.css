@@ -5,3 +5,14 @@
 
 
 
+.user-activiy
+{
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.user-suspensions
+{
+    max-height: 280px;
+    overflow-y: auto;
+}

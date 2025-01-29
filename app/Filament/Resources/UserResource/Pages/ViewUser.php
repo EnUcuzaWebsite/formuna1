@@ -5,6 +5,7 @@ namespace App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -29,18 +30,18 @@ class ViewUser extends ViewRecord
     public function infolist(Infolist $infolist): Infolist
     {
         return $infolist
-            ->columns(3)
+            ->columns(5)
             ->schema([
                 SpatieMediaLibraryImageEntry::make('avatar')
                     ->hiddenLabel()
                     ->extraAttributes(['class' => 'h-full flex items-center justify-center'])
                     ->circular()
-                    ->columnSpan(1)
+                    ->columnSpan(2)
                     ->defaultImageUrl($this->record->getFilamentAvatarUrl())
                     ->size(200),
 
                 Fieldset::make('Overview')
-                    ->columnSpan(2)
+                    ->columnSpan(3)
                     ->extraAttributes([
                         'class' => 'h-full',
                     ])
@@ -52,11 +53,11 @@ class ViewUser extends ViewRecord
                             ->bulleted()
                             ->listWithLineBreaks(),
                         IconEntry::make('status')
-                            ->icon(fn (string $state): string => match ($state) {
+                            ->icon(fn(string $state): string => match ($state) {
                                 'active' => 'heroicon-o-check-circle',
                                 'inactive' => 'heroicon-o-x-circle',
                             })
-                            ->color(fn (string $state): string => match ($state) {
+                            ->color(fn(string $state): string => match ($state) {
                                 'active' => 'success',
                                 'inactive' => 'danger',
                                 default => 'gray',
@@ -64,12 +65,55 @@ class ViewUser extends ViewRecord
                     ]),
 
                 Fieldset::make('Biography')
-                    ->columnSpan(3)
+                    ->columnSpanFull()
                     ->schema([
                         TextEntry::make('bio')
                             ->hiddenLabel()
                             ->columnSpan(3),
                     ]),
+                RepeatableEntry::make('activities')
+                    ->label('Activities')
+                    ->hidden(fn() => $this->record->activities->isEmpty())
+                    ->extraAttributes([
+                        'class' => 'user-activiy',
+                    ])
+                    ->columnSpan(3)
+                    ->schema([
+                        TextEntry::make('activity_type')
+                            ->badge()
+                            ->color(fn(string $state): string => match ($state) {
+                                'report' => 'warning',
+                                'follow' => 'info',
+                            }),
+                        TextEntry::make('target_user.name')
+                            ->label('Target'),
+                        TextEntry::make('created_at')
+                            ->dateTime()
+                            ->label('Date'),
+                    ])
+                    ->columns(3),
+
+                RepeatableEntry::make('suspensions')
+                    ->label('Suspensions')
+                    ->hidden(fn() => $this->record->suspensions->isEmpty())
+                    ->columnSpan(2)
+                    ->extraAttributes([
+                        'class' => 'user-suspensions',
+                    ])
+                    ->schema([
+                        TextEntry::make('status')
+                            ->badge()
+                            ->color(fn(string $state): string => match ($state) {
+                                'suspended' => 'warning',
+                                'banned' => 'danger',
+                            }),
+                        TextEntry::make('reason'),
+                        TextEntry::make('starts_at')
+                            ->label('Start Date'),
+                        TextEntry::make('expires_at')
+                            ->label('End Date'),
+                    ])
+                    ->columns(2)
 
             ]);
     }

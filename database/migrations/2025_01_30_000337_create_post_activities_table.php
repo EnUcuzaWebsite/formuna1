@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('user_activities', function (Blueprint $table) {
+        Schema::create('post_activities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->enum('activity_type', ['follow', 'report']);
-            $table->unsignedBigInteger('target_id')->nullable();
+            $table->enum('activity_type', ['like', 'save', 'report']);
+            $table->unsignedBigInteger('target_id');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_activities');
+        Schema::dropIfExists('post_activities');
     }
 };

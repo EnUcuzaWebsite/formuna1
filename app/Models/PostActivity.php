@@ -5,21 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserActivity extends Model
+class PostActivity extends Model
 {
+    /** @use HasFactory<\Database\Factories\PostActivityFactory> */
     use HasFactory;
-
-    // public $timestamps = false;
 
     protected $fillable = [
         'user_id',
         'activity_type',
         'target_id',
-        'created_at',
-    ];
-
-    protected $dates = [
-        'created_at',
     ];
 
     public function user()
@@ -27,8 +21,10 @@ class UserActivity extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function target_user()
+    public function post()
     {
-        return $this->belongsTo(User::class, 'target_id');
+        return $this->belongsTo(Post::class, 'target_id');
     }
+
+    
 }

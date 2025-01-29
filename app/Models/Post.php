@@ -17,7 +17,7 @@ class Post extends Model
         'title',
         'content',
         'views',
-        'status',   
+        'status',
     ];
 
     public function user()
@@ -54,6 +54,12 @@ class Post extends Model
     {
         return $this->morphMany(Report::class, 'reported');
     }
+
+    public function activities()
+    {
+        return $this->hasMany(PostActivity::class);
+    }
+
 
     public function scopeMostSharedCategory($query, $count = 1)
     {
