@@ -10,11 +10,12 @@
 
 </head>
 
-<body class=" text-white dark">
-    {{ $slot }}
-    @filamentScripts
-    @livewire('notifications')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+<body class="gradient-background text-white">
+{{ $slot }}
+@filamentScripts
+@livewire('notifications')
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 </body>
+
 
 </html>

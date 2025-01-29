@@ -43,7 +43,7 @@
     ];
 ?>
 
-<aside class="h-screen w-[19rem] bg-secondary p-5 overflow-auto">
+<aside class="h-screen w-[19rem] p-5 overflow-auto">
     <h1 class="px-1 text-2xl font-semibold">
         <a href="{{ route('home') }}" wire:navigate>
             Formuna1

@@ -1,5 +1,5 @@
 
-<aside class="col-span-3 bg-secondary h-[calc(100vh-80px)]">
+<aside class="col-span-3 h-[calc(100vh-80px)]">
     <div class="h-full overflow-y-auto">
 
         @if (!$showNotifications)
