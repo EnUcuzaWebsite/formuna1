@@ -52,11 +52,11 @@ $dropdownList = [
                 <img src="{{ auth()->user()->getFilamentAvatarUrl() }}" class="rounded-full h-8 w-8" alt="">
                 <span class="text-sm font-medium"> {{ $name }} </span>
 
-                <div x-show="profileOpen" x-cloak class="bg-gray-800 rounded-md p-4 z-50 absolute top-full w-full">
+                <div x-show="profileOpen" x-cloak class="bg-gray-800 rounded-md p-2 z-50 absolute top-full w-full">
                     <ul class="flex flex-col gap-y-1 items-start text-sm">
                         @foreach($dropdownList as $item)
                             <li wire:click="{{ route($item["route"]) }}"
-                                class="block hover:bg-gray-600 p-2 cursor-pointer text-left rounded-md w-full flex justify-start gap-x-5 items-center">
+                                class="hover:bg-gray-600 p-2 transition-colors duration-200 cursor-pointer text-left rounded-md w-full flex justify-start gap-x-2 items-center">
                                 <x-icon name="heroicon-o-{{ $item['icon'] }}" class="size-4"/>
                                 <span>
                                 {{ $item["title"] }}
@@ -65,7 +65,7 @@ $dropdownList = [
                         @endforeach
                         @if ($is_admin)
                             <a href="/admin"
-                               class="block hover:bg-gray-600 p-2 text-left cursor-pointer rounded-md w-full flex justify-start gap-x-5 items-center">
+                               class="hover:bg-gray-600 transition-colors duration-200 p-2 text-left cursor-pointer rounded-md w-full flex justify-start gap-x-2 items-center">
                                 <x-icon name="heroicon-o-home" class="size-4"/>
                                 <span>
                                 Admin
@@ -73,7 +73,8 @@ $dropdownList = [
                             </a>
                         @endif
                         <li wire:click="logout"
-                            class="block flex items-center justify-between cursor-pointer hover:bg-gray-600 p-2 text-left rounded-md w-full">
+                            wire:confirm="Oturumu kapatmak istediğinize emin misiniz?"
+                            class="hover:bg-red-500 hover:text-white text-red-500 transition-colors duration-200 p-2 text-left cursor-pointer rounded-md w-full flex justify-start gap-x-2 items-center">
                             <x-icon class="size-4" name="heroicon-o-arrow-left-start-on-rectangle"/>
                             <span>Çıkış Yap</span>
                         </li>
@@ -83,4 +84,5 @@ $dropdownList = [
             </button>
         </div>
     </div>
+
 </header>

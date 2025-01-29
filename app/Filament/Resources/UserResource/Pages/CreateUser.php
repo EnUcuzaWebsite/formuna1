@@ -30,10 +30,6 @@ class CreateUser extends CreateRecord
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('avatar')
                             ->columnSpanFull()
-                            ->avatar()
-                            ->extraAttributes([
-                                'class' => 'h-40 w-40  justify-center items-center',
-                            ])
                             ->hiddenLabel()
                             ->acceptedFileTypes(['image/*']),
 
@@ -75,10 +71,10 @@ class CreateUser extends CreateRecord
                             ->preload()
                             ->searchable()
                             ->options(
-                                fn () => Role::query()
+                                fn() => Role::query()
                                     ->when(
-                                        ! auth()->user()?->hasRole('super_admin'),
-                                        fn ($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
+                                        !auth()->user()?->hasRole('super_admin'),
+                                        fn($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
                                     )
                                     ->pluck('name', 'id')
                             ),

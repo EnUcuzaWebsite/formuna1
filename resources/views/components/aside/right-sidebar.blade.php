@@ -1,74 +1,38 @@
-<?php
-$categories = [
-    [
-        "name" => "Formula 1",
-        "entry" => "156"
-    ],
-    [
-        "name" => "Formula 1",
-        "entry" => "156"
-    ],
-    [
-        "name" => "Formula 1",
-        "entry" => "156"
-    ],
-    [
-        "name" => "Formula 1",
-        "entry" => "156"
-    ],
-    [
-        "name" => "hamiltoncular",
-        "entry" => "+8"
-    ],
-];
-
-?>
-
 
 <aside class="col-span-3 bg-secondary h-[calc(100vh-80px)]">
     <div class="h-full overflow-y-auto">
 
-        @if (!$selectedPost && !$showNotifications)
+        @if (!$showNotifications)
             <!-- Default Content -->
             <div x-show="sidebarContent === 'default'">
             <div class="flex h-full text-gray-400">
-                    <div class="w-full px-4">
-                        <x-aside.components.dropdown-menu title="KATEGORILER" icon="heroicon-o-bars-3" :list=$categories/>
-                        <x-aside.components.dropdown-menu title="UYELIK" icon="heroicon-o-users" :list=$categories/>
+                    <div class="w-full p-4">
+                        <div class="space-y-4 pğ4">
+                            <div class="flex flex-col gap-y-4 items-start justify-between">
+                                <h2 class="text-lg text-white  font-bold">Popüler Kategoriler</h2>
+                                <ul class="flex flex-col gap-y-2 w-full">
+                                    @foreach ($categories as $category)
+                                        <li class="flex text-gray-300 items-center justify-between p-2 rounded-md transition-colors duration-300 hover:bg-gray-800 cursor-pointer">
+                                            {{ $category->category->name}}
+                                            <span class="text-xs text-gray-500">
+                                                {{ $category->count }} gönderi
+                                            </span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <h2 class="text-lg text-white mt-2  font-bold">Popüler Konular</h2>
+                                <ul class="flex flex-col gap-y-2 w-full">
+                                    @foreach ($topics as $topic)
+                                        <li class="flex text-gray-300 items-center justify-between p-2 rounded-md transition-colors duration-300 hover:bg-gray-800 cursor-pointer">
+                                            {{ $topic->topic->name}}
+                                            <span class="text-xs text-gray-500">
+                                                {{ $topic->count }} gönderi
+                                            </span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                     </div>
-                </div>
-            </div>
-        @endif
-
-
-        @if ($selectedPost)
-            <!-- Post Details Content -->
-            <div class=" h-full flex flex-col p-5">
-                <div class="space-y-4 flex-grow">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-bold">Gönderi Detayları</h2>
-                        <button wire:click="clearSelected" class="text-gray-300 hover:text-white">
-                            <x-icon name="heroicon-c-x-mark" class="size-6"/>
-                        </button>
-                    </div>
-                    <div class="h-[530px] overflow-auto flex flex-col gap-y-3">
-                        @foreach ($selectedPost->comments as $comment)
-                            <ul class="flex flex-col gap-y-3">
-                                <li class="p-3 rounded-md bg-gray-800 flex flex-col gap-y-2">
-                                    <div class="flex justify-between items-center w-full">
-                                        <span class="text-sm text-gray-300">{{ $comment->user->name }}</span>
-                                        <span
-                                            class="text-[10px] text-gray-300">{{ $comment->created_at->diffForHumans() }}</span>
-                                    </div>
-                                    <p class="text-xs">{{ $comment->comment }}</p>
-                                </li>
-                            </ul>
-                        @endforeach
-                    </div>
-                </div>
-                <!-- Alt kısım -->
-                <div class="mt-auto p-4 bg-gray-900 text-center text-white">
-                    bottom
                 </div>
             </div>
         @endif
