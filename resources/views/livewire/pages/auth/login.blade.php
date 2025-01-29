@@ -2,6 +2,7 @@
 
 use function Livewire\Volt\{state, rules, mount};
 use App\Providers\RouteServiceProvider;
+use Illuminate\Validation\ValidationException; // Buraya ekle
 
 state([
     'email' => '',
@@ -17,14 +18,43 @@ rules([
 $authenticate = function () {
     $this->validate();
 
-    if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-        session()->regenerate();
-        return redirect()->intended(RouteServiceProvider::HOME);
+    // Kullanıcıyı email adresine göre bul
+    $user = \App\Models\User::where('email', $this->email)->first();
+
+    if (!$user) {
+        session()->flash('auth_error', __('Bu e-posta adresine sahip bir kullanıcı bulunamadı.'));
+        return;
     }
 
-    throw ValidationException::withMessages([
-        'email' => __('auth.failed'),
-    ]);
+    // Kullanıcının en güncel ban kaydını al
+    $suspension = $user->suspensions()
+        ->where('status', 'banned')
+        ->where(function ($query) {
+            $query->whereNull('expires_at')->orWhere('expires_at', '>', now());
+        })
+        ->latest('created_at') // En son eklenen kaydı al
+        ->first();
+
+    if ($suspension) {
+        $banMessage = __('Hesabınız ');
+        if ($suspension->expires_at) {
+            $banMessage .= $suspension->expires_at->format('d.m.Y H:i') . __(' tarihine kadar banlıdır.');
+        } else {
+            $banMessage .= __('kalıcı olarak banlanmıştır.');
+        }
+
+        session()->flash('auth_error', $banMessage);
+        return;
+    }
+
+    // Kullanıcıyı doğrula
+    if (!auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+        session()->flash('auth_error', __('Email veya şifre yanlış.'));
+        return;
+    }
+
+    session()->regenerate();
+    return redirect()->intended(RouteServiceProvider::HOME);
 };
 
 ?>
@@ -36,6 +66,12 @@ $authenticate = function () {
                 Giriş Yap
             </h2>
         </div>
+
+        @if (session()->has('auth_error'))
+            <div class="bg-red-600 text-white text-sm p-3 rounded-md text-center">
+                {{ session('auth_error') }}
+            </div>
+        @endif
 
         <form wire:submit.prevent="authenticate" class="mt-8 space-y-6">
             <!-- Email Address -->
