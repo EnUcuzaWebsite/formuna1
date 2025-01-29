@@ -38,12 +38,12 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->colors([
                 'accent' => Color::Indigo,
-                'danger' => Color::Rose,
+                'danger' => Color::Red,
                 'gray' => Color::Gray,
                 'info' => Color::Blue,
                 'primary' => Color::Indigo,
                 'success' => Color::Emerald,
-                'warning' => Color::Orange,
+                'warning' => Color::Yellow,
             ])
             ->profile()
             ->databaseNotifications()

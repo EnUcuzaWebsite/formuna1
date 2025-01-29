@@ -17,7 +17,7 @@ class Post extends Model
         'title',
         'content',
         'views',
-        'status',
+        'status',   
     ];
 
     public function user()
@@ -53,5 +53,25 @@ class Post extends Model
     public function reports()
     {
         return $this->morphMany(Report::class, 'reported');
+    }
+
+    public function scopeMostSharedCategory($query, $count = 1)
+    {
+        return $query->select('category_id')
+            ->selectRaw('count(*) as count')
+            ->groupBy('category_id')
+            ->orderByDesc('count')
+            ->limit($count)
+            ->get();
+    }
+
+    public function scopeMostSharedTopic($query, $count = 1)
+    {
+        return $query->select('topic_id')
+            ->selectRaw('count(*) as count')
+            ->groupBy('topic_id')
+            ->orderByDesc('count')
+            ->limit($count)
+            ->get();
     }
 }
