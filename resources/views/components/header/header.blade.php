@@ -52,7 +52,7 @@ $dropdownList = [
                 <img src="{{ auth()->user()->getFilamentAvatarUrl() }}" class="rounded-full h-8 w-8" alt="">
                 <span class="text-sm font-medium"> {{ $name }} </span>
 
-                <div x-show="profileOpen" x-cloak class="bg-gray-800 rounded-md p-2 z-50 absolute top-full w-full">
+                <div x-show="profileOpen" x-cloak class="bg-gray-800 rounded-md p-2 z-50 absolute top-full mt-1 left-1 w-[140px]">
                     <ul class="flex flex-col gap-y-1 items-start text-sm">
                         @foreach($dropdownList as $item)
                             <li wire:click="{{ route($item["route"]) }}"

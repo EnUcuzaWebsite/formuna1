@@ -8,9 +8,6 @@ use phpDocumentor\Reflection\Types\Void_;
 
 trait Loggable
 {
-
-
-
     public function logs(): MorphMany
     {
         return $this->morphMany(Log::class, 'loggable');

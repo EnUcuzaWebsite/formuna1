@@ -1,6 +1,5 @@
-<!--  Buna tıklandığında right sidebar post -->
 <section
-    class="flex w-full gap-x-3 hover:bg-gray-800 transition-colors duration-300 rounded-lg p-4 mt-6 cursor-pointer items-start">
+    class="flex w-full gap-x-3 hover:bg-gray-600 transition-colors duration-300 rounded-lg p-4 mt-6 cursor-pointer items-start">
 
     <div class="flex w-full flex-col gap-y-2">
         <div class="flex items-center justify-between">

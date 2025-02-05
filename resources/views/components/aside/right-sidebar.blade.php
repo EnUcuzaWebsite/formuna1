@@ -12,7 +12,7 @@
                                 <h2 class="text-lg text-white  font-bold">Popüler Kategoriler</h2>
                                 <ul class="flex flex-col gap-y-2 w-full">
                                     @foreach ($categories as $category)
-                                        <li class="flex text-gray-300 items-center justify-between p-2 rounded-md transition-colors duration-300 hover:bg-gray-800 cursor-pointer">
+                                        <li class="flex text-gray-300 items-center justify-between p-2 rounded-md transition-colors duration-300 hover:bg-gray-600 cursor-pointer">
                                             {{ $category->category->name}}
                                             <span class="text-xs text-gray-500">
                                                 {{ $category->count }} gönderi
@@ -23,7 +23,7 @@
                                 <h2 class="text-lg text-white mt-2  font-bold">Popüler Konular</h2>
                                 <ul class="flex flex-col gap-y-2 w-full">
                                     @foreach ($topics as $topic)
-                                        <li class="flex text-gray-300 items-center justify-between p-2 rounded-md transition-colors duration-300 hover:bg-gray-800 cursor-pointer">
+                                        <li class="flex text-gray-300 items-center justify-between p-2 rounded-md transition-colors duration-300 hover:bg-gray-600 cursor-pointer">
                                             {{ $topic->topic->name}}
                                             <span class="text-xs text-gray-500">
                                                 {{ $topic->count }} gönderi
