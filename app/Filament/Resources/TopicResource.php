@@ -13,7 +13,8 @@ class TopicResource extends Resource
 {
     protected static ?string $model = Topic::class;
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
+    protected static ?string $navigationLabel = 'Konular';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
 
@@ -56,6 +57,7 @@ class TopicResource extends Resource
         return [
             'index' => Pages\ListTopics::route('/'),
             'create' => Pages\CreateTopic::route('/create'),
+            'view' => Pages\ViewTopic::route('/{record}'),
             'edit' => Pages\EditTopic::route('/{record}/edit'),
         ];
     }

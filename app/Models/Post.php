@@ -55,11 +55,6 @@ class Post extends Model
         return $this->morphMany(Report::class, 'reported');
     }
 
-    public function activities()
-    {
-        return $this->hasMany(PostActivity::class);
-    }
-
     public function scopeMostSharedCategory($query, $count = 1)
     {
         return $query->select('category_id')

@@ -21,9 +21,14 @@ class Category extends Model
         return $this->hasMany(Topic::class);
     }
 
-    public function forms()
+    public function posts()
     {
-        return $this->hasMany(Form::class);
+        return $this->hasMany(Post::class)->latest();
+    }
+
+    public function latest_posts()
+    {
+        return $this->hasMany(Post::class)->latest()->limit(3);
     }
 
     public function favorites()

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Comment;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -153,26 +152,6 @@ class DatabaseSeeder extends Seeder
             \App\Models\FavoriteTopic::create([
                 'user_id' => rand(1, 10),
                 'topic_id' => rand(1, count($topics)),
-            ]);
-        }
-
-        // Create user activities
-        $activityTypes = ['follow', 'report'];
-        for ($i = 0; $i < 100; $i++) {
-            \App\Models\UserActivity::create([
-                'user_id' => rand(1, 10),
-                'activity_type' => $activityTypes[array_rand($activityTypes)],
-                'target_id' => rand(1, 10),
-            ]);
-        }
-
-        // Create user post activities
-        $activityTypes = ['like', 'save', 'report'];
-        for ($i = 0; $i < 100; $i++) {
-            \App\Models\PostActivity::create([
-                'user_id' => rand(1, 10),
-                'activity_type' => $activityTypes[array_rand($activityTypes)],
-                'target_id' => rand(1, 30),
             ]);
         }
 

@@ -18,6 +18,15 @@ class Log extends Model
         'log' => 'json',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('created_at', function ($query) {
+            $query->orderBy('created_at', 'desc');
+        });
+    }
+
     public function loggable(): MorphTo
     {
         return $this->morphTo('loggable', 'loggable_type', 'loggable_id');

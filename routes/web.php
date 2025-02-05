@@ -27,4 +27,4 @@ Route::group(['middleware' => 'auth'], function () {
     Volt::route('/post/{post}', \App\Livewire\PostDetail::class)->name('post.show');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

@@ -9,6 +9,7 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 
 class CreateUser extends CreateRecord
@@ -16,6 +17,18 @@ class CreateUser extends CreateRecord
     protected static string $resource = UserResource::class;
 
     protected static ?string $title = 'Kullanıcı Oluştur';
+
+    protected function handleRecordCreation(array $data): Model
+    {
+        $record = static::getModel()::createQuietly($data);
+
+        $record->log([
+            'type' => 'created',
+            'message' => '<strong>'.auth()->user()->name.'</strong> <small> oluşturdu </small> <strong><u> <a href="'.route('filament.admin.resources.users.view', ['record' => $record]).'">'.$data['name'].'</a></u></strong>',
+        ]);
+
+        return $record;
+    }
 
     public function form(Form $form): Form
     {

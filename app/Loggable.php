@@ -4,7 +4,6 @@ namespace App;
 
 use App\Models\Log;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use phpDocumentor\Reflection\Types\Void_;
 
 trait Loggable
 {
@@ -12,7 +11,6 @@ trait Loggable
     {
         return $this->morphMany(Log::class, 'loggable');
     }
-
 
     public function log($log)
     {

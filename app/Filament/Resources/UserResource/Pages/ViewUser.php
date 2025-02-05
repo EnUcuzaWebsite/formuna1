@@ -4,15 +4,12 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use Filament\Infolists\Components\Fieldset;
-use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ViewRecord;
-use App\Models\Log;
-
 
 class ViewUser extends ViewRecord
 {
@@ -29,8 +26,6 @@ class ViewUser extends ViewRecord
     {
         return $this->record->name;
     }
-
-
 
     public function infolist(Infolist $infolist): Infolist
     {
@@ -58,11 +53,11 @@ class ViewUser extends ViewRecord
                             ->bulleted()
                             ->listWithLineBreaks(),
                         IconEntry::make('status')
-                            ->icon(fn(string $state): string => match ($state) {
+                            ->icon(fn (string $state): string => match ($state) {
                                 'active' => 'heroicon-o-check-circle',
                                 'inactive' => 'heroicon-o-x-circle',
                             })
-                            ->color(fn(string $state): string => match ($state) {
+                            ->color(fn (string $state): string => match ($state) {
                                 'active' => 'success',
                                 'inactive' => 'danger',
                                 default => 'gray',
@@ -76,35 +71,24 @@ class ViewUser extends ViewRecord
                             ->hiddenLabel()
                             ->columnSpan(3),
                     ]),
-                RepeatableEntry::make('activities')
-                    ->label('Activities')
-                    ->hidden(fn() => $this->record->activities->isEmpty())
-                    ->extraAttributes([
-                        'class' => 'user-activiy',
-                    ])
-                    ->columnSpan(3)
-                    ->schema([
-                        TextEntry::make('activity_type')
-                            ->badge()
-                            ->color(fn(string $state): string => match ($state) {
-                                'report' => 'warning',
-                                'follow' => 'info',
-                            }),
-                        TextEntry::make('target_user.name')
-                            ->label('Target'),
-                        TextEntry::make('created_at')
-                            ->dateTime()
-                            ->label('Date'),
-                    ])
-                    ->columns(3),
 
                 RepeatableEntry::make('user_logs')
                     ->label('Loglar')
-                    ->columnSpan(2)
+                    ->columnSpan(3)
+                    ->extraAttributes([
+                        'class' => 'user-activiy',
+                    ])
                     ->schema([
-                        TextEntry::make('loggable_type'),
-                        TextEntry::make('loggable_id'),
-                        TextEntry::make('log')
+                        TextEntry::make('loggable_type')
+                            ->label('İşlem'),
+                        TextEntry::make('created_at')
+                            ->label('Tarih')
+                            ->datetime(),
+                        TextEntry::make('log.message')
+                            ->html()
+                            ->hiddenLabel()
+                            ->columnSpan(2),
+                        TextEntry::make('log.changes')
                             ->hiddenLabel()
                             ->columnSpan(2),
                     ])
