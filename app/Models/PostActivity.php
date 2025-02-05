@@ -25,6 +25,4 @@ class PostActivity extends Model
     {
         return $this->belongsTo(Post::class, 'target_id');
     }
-
-    
 }

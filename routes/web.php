@@ -1,15 +1,17 @@
 <?php
 
 use App\Livewire\Home;
+use App\Models\Log;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-
 // test route
 Route::get('/test', function () {
-    $user = \App\Models\User::find(1);
-    dd($user->activities->first()->target_user);
+    $user = auth()->user();
 
+    $user_logs = Log::where('user_id', $user->id)->get();
+
+    dd($user_logs->toArray());
 });
 
 Volt::route('/login', 'pages.auth.login')->name('login');

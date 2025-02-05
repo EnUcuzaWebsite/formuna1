@@ -71,10 +71,10 @@ class CreateUser extends CreateRecord
                             ->preload()
                             ->searchable()
                             ->options(
-                                fn() => Role::query()
+                                fn () => Role::query()
                                     ->when(
-                                        !auth()->user()?->hasRole('super_admin'),
-                                        fn($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
+                                        ! auth()->user()?->hasRole('super_admin'),
+                                        fn ($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
                                     )
                                     ->pluck('name', 'id')
                             ),

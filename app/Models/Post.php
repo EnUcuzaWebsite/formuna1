@@ -60,7 +60,6 @@ class Post extends Model
         return $this->hasMany(PostActivity::class);
     }
 
-
     public function scopeMostSharedCategory($query, $count = 1)
     {
         return $query->select('category_id')

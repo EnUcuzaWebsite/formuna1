@@ -4,12 +4,15 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use Filament\Infolists\Components\Fieldset;
+use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ViewRecord;
+use App\Models\Log;
+
 
 class ViewUser extends ViewRecord
 {
@@ -26,6 +29,8 @@ class ViewUser extends ViewRecord
     {
         return $this->record->name;
     }
+
+
 
     public function infolist(Infolist $infolist): Infolist
     {
@@ -93,27 +98,17 @@ class ViewUser extends ViewRecord
                     ])
                     ->columns(3),
 
-                RepeatableEntry::make('suspensions')
-                    ->label('Suspensions')
-                    ->hidden(fn() => $this->record->suspensions->isEmpty())
+                RepeatableEntry::make('user_logs')
+                    ->label('Loglar')
                     ->columnSpan(2)
-                    ->extraAttributes([
-                        'class' => 'user-suspensions',
-                    ])
                     ->schema([
-                        TextEntry::make('status')
-                            ->badge()
-                            ->color(fn(string $state): string => match ($state) {
-                                'suspended' => 'warning',
-                                'banned' => 'danger',
-                            }),
-                        TextEntry::make('reason'),
-                        TextEntry::make('starts_at')
-                            ->label('Start Date'),
-                        TextEntry::make('expires_at')
-                            ->label('End Date'),
+                        TextEntry::make('loggable_type'),
+                        TextEntry::make('loggable_id'),
+                        TextEntry::make('log')
+                            ->hiddenLabel()
+                            ->columnSpan(2),
                     ])
-                    ->columns(2)
+                    ->columns(2),
 
             ]);
     }

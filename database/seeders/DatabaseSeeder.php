@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
         foreach ($motorsportDrivers as $username) {
             \App\Models\User::create([
                 'name' => $username,
-                'email' => strtolower($username) . '@example.com',
+                'email' => strtolower($username).'@example.com',
                 'password' => bcrypt('password'),
                 'bio' => fake()->sentence(20),
                 'status' => 'active',

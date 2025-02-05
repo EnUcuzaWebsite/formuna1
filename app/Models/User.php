@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Loggable;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -24,6 +25,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     use HasPanelShield;
     use HasRoles;
     use InteractsWithMedia;
+    use Loggable;
 
     /**
      * The attributes that are mass assignable.
@@ -76,6 +78,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     {
         return $this->hasMany(UserActivity::class);
     }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -157,5 +160,10 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         return $this->suspensions()->where('status', 'suspended')
             ->where('expires_at', '>', now())
             ->exists();
+    }
+
+    public function user_logs()
+    {
+        return $this->hasMany(Log::class, 'user_id', 'id');
     }
 }
