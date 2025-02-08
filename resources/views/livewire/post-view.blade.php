@@ -6,18 +6,22 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4 relative">
                 <div class="flex items-center gap-1 relative">
-                    <a href="#" class="flex items-center gap-2">
+                    <button class="flex items-center gap-2" wire:click.prevent>
                         <img src="{{  $post->user->getFilamentAvatarUrl() }}" class="rounded-full h-8 w-8" alt="">
                         <span class="text-sm">{{ $post->user->name }}</span>
-                    </a>
-                    <livewire:follow-button :post="$post"/>
+                    </button>
+                    @if($post->user->id !== auth()->user()->id)
+                        <div wire:click.prevent>
+                            <livewire:follow-button :user="$post->user"/>
+                        </div>
+                    @endif
                 </div>
 
                 <span class="text-xs">{{ $post->created_at->translatedFormat('d F Y H:i') }}</span>
             </div>
 
 
-            <div class="flex items-center">
+            <div class="flex items-center" wire:click.prevent>
                     <livewire:like-button :post="$post"/>
 
                     <livewire:post-action-group :post="$post"/>

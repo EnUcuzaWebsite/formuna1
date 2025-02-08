@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Follow;
 use App\Models\Post;
+use App\Models\User;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -17,11 +18,11 @@ class FollowButton extends Component implements HasForms, HasActions
     use InteractsWithForms;
     use InteractsWithActions;
 
-    public ?Post $post;
+    public ?User $user;
 
-    public function mount(Post &$post)
+    public function mount(User &$user)
     {
-        $this->post = $post;
+        $this->user = $user;
     }
 
     public function followAction(): Action
@@ -31,10 +32,10 @@ class FollowButton extends Component implements HasForms, HasActions
             ->extraAttributes([
                 'style'=> 'padding: 0 !important'
             ])
-            ->icon($this->post->user->isfollowed() ? 'heroicon-s-user-plus' : 'heroicon-o-user-plus')
+            ->icon($this->user->isfollowed() ? 'heroicon-s-user-plus' : 'heroicon-o-user-plus')
             ->action(function () {
-                if($this->post->user->isfollowed()){
-                    Follow::where(['follower_id' => auth()->id(), 'followed_id' => $this->post->user->id])->delete();
+                if($this->user->isfollowed()){
+                    Follow::where(['follower_id' => auth()->id(), 'followed_id' => $this->user->id])->delete();
                     Notification::make()
                         ->title('Kullanıcı Takipten Çıkarıldı')
                         ->warning()
@@ -42,7 +43,7 @@ class FollowButton extends Component implements HasForms, HasActions
                         ->send();
                 }
                 else{
-                    $this->post->user->follow();
+                    $this->user->follow();
                     Notification::make()
                         ->title('Kullanıcı Takip Edildi')
                         ->success()
