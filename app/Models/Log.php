@@ -12,11 +12,22 @@ class Log extends Model
         'loggable_id',
         'loggable_type',
         'log',
+        'changes',
     ];
 
     protected $casts = [
         'log' => 'json',
+        'changes' => 'array',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('created_at', function ($query) {
+            $query->orderBy('created_at', 'desc');
+        });
+    }
 
     public function loggable(): MorphTo
     {

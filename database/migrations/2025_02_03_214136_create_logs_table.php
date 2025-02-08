@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id')->nullable();
             $table->morphs('loggable');
             $table->json('log');
+            $table->json('changes')->nullable();
             $table->timestamps();
         });
     }

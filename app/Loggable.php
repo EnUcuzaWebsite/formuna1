@@ -4,7 +4,6 @@ namespace App;
 
 use App\Models\Log;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use phpDocumentor\Reflection\Types\Void_;
 
 trait Loggable
 {
@@ -13,12 +12,12 @@ trait Loggable
         return $this->morphMany(Log::class, 'loggable');
     }
 
-
-    public function log($log)
+    public function log($log, array $changes = []): void
     {
         $this->logs()->create([
             'user_id' => auth()->id(),
             'log' => $log,
+            'changes' => $changes,
         ]);
     }
 
@@ -32,19 +31,17 @@ trait Loggable
             ]);
         });
 
-        static::updated(function ($model) use ($user): void {
+        static::updating(function ($model) use ($user): void {
             $model->log([
                 'type' => 'updated',
                 'message' => trans(':User tarafından güncellendi', ['user' => $user]),
-                'changes' => $model->getDirty(),
-            ]);
+            ], $model->getDirty());
         });
 
         static::deleted(function ($model) use ($user): void {
             $model->log([
                 'type' => 'deleted',
                 'message' => trans(':User tarafından silindi', ['user' => $user]),
-                'changes' => $model->getOriginal(),
             ]);
         });
     }

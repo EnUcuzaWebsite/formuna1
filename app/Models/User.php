@@ -8,6 +8,7 @@ use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -64,57 +65,52 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         ];
     }
 
-    public function suspensions()
+    public function suspensions(): HasMany
     {
         return $this->hasMany(UserSuspension::class);
     }
 
-    public function forms()
+    public function forms(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    public function activities()
-    {
-        return $this->hasMany(UserActivity::class);
-    }
-
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function reports()
+    public function reports(): HasMany
     {
         return $this->hasMany(Report::class, 'reporter_id');
     }
 
-    public function likedForms()
+    public function likedForms(): HasMany
     {
         return $this->hasMany(LikedPost::class);
     }
 
-    public function savedForms()
+    public function savedForms(): HasMany
     {
         return $this->hasMany(SavedPost::class);
     }
 
-    public function favoriteTopics()
+    public function favoriteTopics(): HasMany
     {
         return $this->hasMany(FavoriteTopic::class);
     }
 
-    public function favoriteCategories()
+    public function favoriteCategories(): HasMany
     {
         return $this->hasMany(FavoriteCategory::class);
     }
 
-    public function followers()
+    public function followers(): HasMany
     {
         return $this->hasMany(Follow::class, 'followed_id');
     }
 
-    public function following()
+    public function following(): HasMany
     {
         return $this->hasMany(Follow::class, 'follower_id');
     }
@@ -143,6 +139,18 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         return "https://ui-avatars.com/api/?name={$this->name}&background=E4E4E4";
     }
 
+    public function isfollowed(): bool
+    {
+        return $this->followers()->where('follower_id' , auth()->id())->exists();
+    }
+
+    public function follow(): void {
+        Follow::create([
+            'follower_id' => auth()->id(),
+            'followed_id' => $this->id
+        ]);
+    }
+
     public function isActive(): bool
     {
         return !$this->suspensions()->where('expires_at', '>', now())->exists();
@@ -165,5 +173,10 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     public function user_logs()
     {
         return $this->hasMany(Log::class, 'user_id', 'id');
+    }
+
+    public function find_id(): void
+    {
+        dd($this->id);
     }
 }

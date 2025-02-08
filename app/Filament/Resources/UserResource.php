@@ -5,8 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\Widgets\UserStats;
 use App\Models\User;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
@@ -15,27 +13,18 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationLabel = 'Kullanıcılar';
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?int $navigationSort = 1;
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('name')
-                    ->label('Name')
-                    ->required(),
-            ]);
-    }
 
-    public static function getRelations(): array
+    public static function getNavigationIcon(): string
     {
-        return [
-            //
-        ];
+        return request()->routeIs('filament.admin.resources.users.*')
+            ? 'heroicon-s-user'
+            : 'heroicon-o-user';
     }
 
     public static function getWidgets(): array

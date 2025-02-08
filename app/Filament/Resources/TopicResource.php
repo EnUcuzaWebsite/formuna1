@@ -4,51 +4,35 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TopicResource\Pages;
 use App\Models\Topic;
-use Filament\Forms\Form;
+use Filament\Pages\Page;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
+use Filament\Pages\SubNavigationPosition;
+
+
 
 class TopicResource extends Resource
 {
     protected static ?string $model = Topic::class;
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
+    protected static ?string $navigationLabel = 'Konular';
 
-    public static function form(Form $form): Form
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    public static function getNavigationIcon(): string
     {
-        return $form
-            ->schema([
-                //
-            ]);
+        return request()->routeIs('filament.admin.resources.topics.*')
+            ? 'heroicon-s-rectangle-group'
+            : 'heroicon-o-rectangle-group';
     }
 
-    public static function table(Table $table): Table
+    public static function getRecordSubNavigation(Page $page): array
     {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+        return $page->generateNavigationItems([
+            Pages\ViewTopic::class,
+            Pages\EditTopic::class,
+        ]);
     }
 
     public static function getPages(): array
@@ -56,6 +40,7 @@ class TopicResource extends Resource
         return [
             'index' => Pages\ListTopics::route('/'),
             'create' => Pages\CreateTopic::route('/create'),
+            'view' => Pages\ViewTopic::route('/{record}'),
             'edit' => Pages\EditTopic::route('/{record}/edit'),
         ];
     }

@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Topic extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'name',
         'detail',
@@ -16,14 +16,23 @@ class Topic extends Model
         'category_id',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('created_at', function ($query) {
+            $query->orderBy('created_at', 'desc');
+        });
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function forms()
+    public function posts()
     {
-        return $this->hasMany(Form::class);
+        return $this->hasMany(Post::class);
     }
 
     public function favorites()
@@ -34,5 +43,10 @@ class Topic extends Model
     public function reports()
     {
         return $this->morphMany(Report::class, 'reported');
+    }
+
+    public function latest_posts()
+    {
+        return $this->hasMany(Post::class)->latest()->limit(3);
     }
 }

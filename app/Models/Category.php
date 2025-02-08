@@ -16,14 +16,28 @@ class Category extends Model
         'icon',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('created_at', function ($query) {
+            $query->orderBy('created_at', 'desc');
+        });
+    }
+
     public function topics()
     {
         return $this->hasMany(Topic::class);
     }
 
-    public function forms()
+    public function posts()
     {
-        return $this->hasMany(Form::class);
+        return $this->hasMany(Post::class)->latest();
+    }
+
+    public function latest_posts()
+    {
+        return $this->hasMany(Post::class)->latest()->limit(3);
     }
 
     public function favorites()

@@ -4,33 +4,21 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use Filament\Infolists\Components\Fieldset;
-use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ViewRecord;
-use App\Models\Log;
-
 
 class ViewUser extends ViewRecord
 {
     protected static string $resource = UserResource::class;
 
-    public function getHeaderActions(): array
-    {
-        return [
-
-        ];
-    }
-
     public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
     {
         return $this->record->name;
     }
-
-
 
     public function infolist(Infolist $infolist): Infolist
     {
@@ -76,37 +64,41 @@ class ViewUser extends ViewRecord
                             ->hiddenLabel()
                             ->columnSpan(3),
                     ]),
-                RepeatableEntry::make('activities')
-                    ->label('Activities')
-                    ->hidden(fn() => $this->record->activities->isEmpty())
-                    ->extraAttributes([
-                        'class' => 'user-activiy',
-                    ])
-                    ->columnSpan(3)
-                    ->schema([
-                        TextEntry::make('activity_type')
-                            ->badge()
-                            ->color(fn(string $state): string => match ($state) {
-                                'report' => 'warning',
-                                'follow' => 'info',
-                            }),
-                        TextEntry::make('target_user.name')
-                            ->label('Target'),
-                        TextEntry::make('created_at')
-                            ->dateTime()
-                            ->label('Date'),
-                    ])
-                    ->columns(3),
 
                 RepeatableEntry::make('user_logs')
                     ->label('Loglar')
-                    ->columnSpan(2)
+                    ->columnSpan(3)
+                    ->hidden(fn() => $this->record->user_logs->isEmpty())
+                    ->extraAttributes([
+                        'class' => 'user-activiy',
+                    ])
                     ->schema([
-                        TextEntry::make('loggable_type'),
-                        TextEntry::make('loggable_id'),
-                        TextEntry::make('log')
+                        TextEntry::make('loggable_type')
+                            ->label('İşlem'),
+                        TextEntry::make('created_at')
+                            ->label('Tarih')
+                            ->datetime(),
+                        TextEntry::make('log.message')
+                            ->html()
                             ->hiddenLabel()
                             ->columnSpan(2),
+
+                        RepeatableEntry::make('changes')
+                            ->label('Değişiklikler')
+                            ->hiddenLabel()
+                            ->columnSpan(3)
+                            ->columns(3)
+                            ->schema([
+                                TextEntry::make('field')
+                                    ->suffix(':')
+                                    ->weight('bold')
+                                    ->hiddenLabel(),
+                                TextEntry::make('old')
+                                    ->label('Eski'),
+                                TextEntry::make('new')
+                                    ->label('Yeni'),
+                            ]),
+
                     ])
                     ->columns(2),
 

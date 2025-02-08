@@ -16,7 +16,6 @@ use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 
-
 class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
@@ -36,11 +35,27 @@ class EditUser extends EditRecord
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         unset($data['change_password']);
-        $record->update($data);
+
+        $old_values = $record->getOriginal();
+        $record->updateQuietly($data);
+        $changed_fields = $record->getChanges();
+
+        $diff = [];
+        foreach ($changed_fields as $key => $new_value) {
+            if (!in_array($key, ['password', 'updated_at', 'remember_token'])) {
+                $diff[] = [
+                    'field' => $key,
+                    'old' => $old_values[$key] ?? null,
+                    'new' => $new_value
+                ];
+            }
+
+        }
+
         $record->log([
             'type' => 'updated',
-            'message' => $data['name'] . ' User updated by ' . auth()->user()->name,
-        ]);
+            'message' => '<strong><u> <a href="' . route('filament.admin.resources.users.view', ['record' => auth()->user()]) . '">' . auth()->user()->name . '</a></u></strong> <small> düzenledi </small> <strong><u> <a href="' . route('filament.admin.resources.users.view', ['record' => $record]) . '">' . $data['name'] . '</a></u></strong>',
+        ], $diff);
 
         return $record;
     }

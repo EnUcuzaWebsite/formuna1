@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Comment;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -116,30 +115,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Create follows
-        for ($i = 0; $i < 20; $i++) {
-            \App\Models\Follow::create([
-                'following_user_id' => rand(1, 10),
-                'followed_user_id' => rand(1, 10),
-            ]);
-        }
-
-        // Create liked forms
-        for ($i = 0; $i < 50; $i++) {
-            \App\Models\LikedPost::create([
-                'user_id' => rand(1, 10),
-                'post_id' => rand(1, 30),
-            ]);
-        }
-
-        // Create saved forms
-        for ($i = 0; $i < 40; $i++) {
-            \App\Models\SavedPost::create([
-                'user_id' => rand(1, 10),
-                'post_id' => rand(1, 30),
-            ]);
-        }
-
         // Create favorite categories
         for ($i = 0; $i < 30; $i++) {
             \App\Models\FavoriteCategory::create([
@@ -153,26 +128,6 @@ class DatabaseSeeder extends Seeder
             \App\Models\FavoriteTopic::create([
                 'user_id' => rand(1, 10),
                 'topic_id' => rand(1, count($topics)),
-            ]);
-        }
-
-        // Create user activities
-        $activityTypes = ['follow', 'report'];
-        for ($i = 0; $i < 100; $i++) {
-            \App\Models\UserActivity::create([
-                'user_id' => rand(1, 10),
-                'activity_type' => $activityTypes[array_rand($activityTypes)],
-                'target_id' => rand(1, 10),
-            ]);
-        }
-
-        // Create user post activities
-        $activityTypes = ['like', 'save', 'report'];
-        for ($i = 0; $i < 100; $i++) {
-            \App\Models\PostActivity::create([
-                'user_id' => rand(1, 10),
-                'activity_type' => $activityTypes[array_rand($activityTypes)],
-                'target_id' => rand(1, 30),
             ]);
         }
 
