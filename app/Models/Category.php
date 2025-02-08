@@ -16,6 +16,15 @@ class Category extends Model
         'icon',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('created_at', function ($query) {
+            $query->orderBy('created_at', 'desc');
+        });
+    }
+
     public function topics()
     {
         return $this->hasMany(Topic::class);

@@ -35,12 +35,27 @@ class EditUser extends EditRecord
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         unset($data['change_password']);
-        $record->update($data);
+
+        $old_values = $record->getOriginal();
+        $record->updateQuietly($data);
+        $changed_fields = $record->getChanges();
+
+        $diff = [];
+        foreach ($changed_fields as $key => $new_value) {
+            if (!in_array($key, ['password', 'updated_at', 'remember_token'])) {
+                $diff[] = [
+                    'field' => $key,
+                    'old' => $old_values[$key] ?? null,
+                    'new' => $new_value
+                ];
+            }
+
+        }
 
         $record->log([
             'type' => 'updated',
-            'message' => '<strong>'.auth()->user()->name.'</strong> <small> düzenledi </small> <strong><u> <a href="'.route('filament.admin.resources.users.view', ['record' => $record]).'">'.$data['name'].'</a></u></strong>',
-        ]);
+            'message' => '<strong><u> <a href="' . route('filament.admin.resources.users.view', ['record' => auth()->user()]) . '">' . auth()->user()->name . '</a></u></strong> <small> düzenledi </small> <strong><u> <a href="' . route('filament.admin.resources.users.view', ['record' => $record]) . '">' . $data['name'] . '</a></u></strong>',
+        ], $diff);
 
         return $record;
     }
@@ -74,7 +89,7 @@ class EditUser extends EditRecord
 
                 Fieldset::make('Password')
                     ->columnSpan(1)
-                    ->visible(fn () => auth()->user()?->hasRole('super_admin'))
+                    ->visible(fn() => auth()->user()?->hasRole('super_admin'))
                     ->extraAttributes([
                         'class' => 'h-full',
                     ])
@@ -88,7 +103,7 @@ class EditUser extends EditRecord
                             ->password()
                             ->revealable()
                             // ->disabled(fn(Get $get) => !$get('change_password'))
-                            ->visible(fn (Get $get) => auth()->user()?->hasRole('super_admin') && $get('change_password'))
+                            ->visible(fn(Get $get) => auth()->user()?->hasRole('super_admin') && $get('change_password'))
                             ->columnSpanFull()
                             ->required(),
                     ]),
@@ -113,14 +128,14 @@ class EditUser extends EditRecord
                             ->preload()
                             ->searchable()
                             ->options(
-                                fn () => Role::query()
+                                fn() => Role::query()
                                     ->when(
-                                        ! auth()->user()?->hasRole('super_admin'),
-                                        fn ($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
+                                        !auth()->user()?->hasRole('super_admin'),
+                                        fn($query) => $query->whereNotIn('name', ['super_admin', 'Panel Admin'])
                                     )
                                     ->pluck('name', 'id')
                             )
-                            ->disabled(fn () => (! auth()->user()?->hasRole('super_admin') && $this->record->hasRole('super_admin')) || ($this->record->hasRole('Panel Admin') && auth()->user()?->hasRole('Panel Admin'))),
+                            ->disabled(fn() => (!auth()->user()?->hasRole('super_admin') && $this->record->hasRole('super_admin')) || ($this->record->hasRole('Panel Admin') && auth()->user()?->hasRole('Panel Admin'))),
                     ]),
 
                 RichEditor::make('bio')

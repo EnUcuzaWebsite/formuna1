@@ -20,6 +20,15 @@ class Post extends Model
         'status',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('created_at', function ($query) {
+            $query->orderBy('created_at', 'desc');
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -53,6 +62,32 @@ class Post extends Model
     public function reports()
     {
         return $this->morphMany(Report::class, 'reported');
+    }
+
+    public function isliked(): bool
+    {
+        return $this->likes()->where('user_id', auth()->id())->exists();
+    }
+
+    public function issaved(): bool
+    {
+        return $this->saves()->where('user_id', auth()->id())->exists();
+    }
+
+    public function savepost(): void
+    {
+        SavedPost::create([
+            'user_id' => auth()->id(),
+            'post_id' => $this->id
+        ]);
+    }
+
+    public function likepost(): void
+    {
+        LikedPost::create([
+            'user_id' => auth()->id(),
+            'post_id' => $this->id
+        ]);
     }
 
     public function scopeMostSharedCategory($query, $count = 1)

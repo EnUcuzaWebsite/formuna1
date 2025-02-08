@@ -16,9 +16,14 @@ class CategoryResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
-    protected static ?string $navigationIcon = 'heroicon-o-square-2-stack';
-
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    public static function getNavigationIcon(): string
+    {
+        return request()->routeIs('filament.admin.resources.categories.*')
+            ? 'heroicon-s-square-2-stack'
+            : 'heroicon-o-square-2-stack';
+    }
 
     public static function getRecordSubNavigation(Page $page): array
     {

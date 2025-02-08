@@ -15,13 +15,6 @@ class ViewUser extends ViewRecord
 {
     protected static string $resource = UserResource::class;
 
-    public function getHeaderActions(): array
-    {
-        return [
-
-        ];
-    }
-
     public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
     {
         return $this->record->name;
@@ -53,11 +46,11 @@ class ViewUser extends ViewRecord
                             ->bulleted()
                             ->listWithLineBreaks(),
                         IconEntry::make('status')
-                            ->icon(fn (string $state): string => match ($state) {
+                            ->icon(fn(string $state): string => match ($state) {
                                 'active' => 'heroicon-o-check-circle',
                                 'inactive' => 'heroicon-o-x-circle',
                             })
-                            ->color(fn (string $state): string => match ($state) {
+                            ->color(fn(string $state): string => match ($state) {
                                 'active' => 'success',
                                 'inactive' => 'danger',
                                 default => 'gray',
@@ -75,6 +68,7 @@ class ViewUser extends ViewRecord
                 RepeatableEntry::make('user_logs')
                     ->label('Loglar')
                     ->columnSpan(3)
+                    ->hidden(fn() => $this->record->user_logs->isEmpty())
                     ->extraAttributes([
                         'class' => 'user-activiy',
                     ])
@@ -88,9 +82,23 @@ class ViewUser extends ViewRecord
                             ->html()
                             ->hiddenLabel()
                             ->columnSpan(2),
-                        TextEntry::make('log.changes')
+
+                        RepeatableEntry::make('changes')
+                            ->label('Değişiklikler')
                             ->hiddenLabel()
-                            ->columnSpan(2),
+                            ->columnSpan(3)
+                            ->columns(3)
+                            ->schema([
+                                TextEntry::make('field')
+                                    ->suffix(':')
+                                    ->weight('bold')
+                                    ->hiddenLabel(),
+                                TextEntry::make('old')
+                                    ->label('Eski'),
+                                TextEntry::make('new')
+                                    ->label('Yeni'),
+                            ]),
+
                     ])
                     ->columns(2),
 

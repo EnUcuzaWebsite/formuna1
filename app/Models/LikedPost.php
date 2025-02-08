@@ -9,8 +9,6 @@ class LikedPost extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     protected $fillable = [
         'user_id',
         'post_id',
@@ -21,7 +19,7 @@ class LikedPost extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function form()
+    public function post()
     {
         return $this->belongsTo(Post::class);
     }

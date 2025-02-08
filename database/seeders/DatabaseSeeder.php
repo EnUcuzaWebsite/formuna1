@@ -115,30 +115,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Create follows
-        for ($i = 0; $i < 20; $i++) {
-            \App\Models\Follow::create([
-                'following_user_id' => rand(1, 10),
-                'followed_user_id' => rand(1, 10),
-            ]);
-        }
-
-        // Create liked forms
-        for ($i = 0; $i < 50; $i++) {
-            \App\Models\LikedPost::create([
-                'user_id' => rand(1, 10),
-                'post_id' => rand(1, 30),
-            ]);
-        }
-
-        // Create saved forms
-        for ($i = 0; $i < 40; $i++) {
-            \App\Models\SavedPost::create([
-                'user_id' => rand(1, 10),
-                'post_id' => rand(1, 30),
-            ]);
-        }
-
         // Create favorite categories
         for ($i = 0; $i < 30; $i++) {
             \App\Models\FavoriteCategory::create([

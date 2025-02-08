@@ -12,6 +12,15 @@ class ListPosts extends ListRecords
 {
     protected static string $resource = PostResource::class;
 
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make()
+                ->label('Post Olşutur')
+                ->icon('heroicon-o-plus-circle'),
+        ];
+    }
+
     public function table(Table $table): Table
     {
         return $table

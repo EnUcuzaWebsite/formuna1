@@ -1,19 +1,15 @@
 <?php
 
 use App\Livewire\Home;
-use App\Models\Log;
+use App\Models\Follow;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 // test route
 Route::get('/test', function () {
-    $user = auth()->user();
-
-    $user_logs = Log::where('user_id', $user->id)->get();
-
-    dd($user_logs->toArray());
+    $user = \App\Models\User::find(2);
+    dd($user->find_id);
 });
-
 Volt::route('/login', 'pages.auth.login')->name('login');
 Route::get('/logout', function () {
     Auth::logout();
@@ -27,4 +23,4 @@ Route::group(['middleware' => 'auth'], function () {
     Volt::route('/post/{post}', \App\Livewire\PostDetail::class)->name('post.show');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

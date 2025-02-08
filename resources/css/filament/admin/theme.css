@@ -2,9 +2,6 @@
 
 @config 'tailwind.config.js';
 
-
-
-
 .user-activiy
 {
     max-height: 280px;
@@ -15,4 +12,26 @@
 {
     max-height: 280px;
     overflow-y: auto;
+}
+
+.fi-fieldset>legend
+{
+    @apply text-lg font-semibold;
+}
+
+.view-url .fi-in-text-item>div
+{
+    @apply text-indigo-500 relative !important;
+
+    &::before {
+        content: '';
+        @apply -left-5 size-2.5 p-2.5 bg-gray-200 absolute;
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-image: url('../../../../vendor/blade-ui-kit/blade-heroicons/resources/svg/c-link.svg');
+    }
+
+    &:hover::before {
+        @apply bg-indigo-500;
+    }
 }

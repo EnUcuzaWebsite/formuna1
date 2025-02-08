@@ -7,6 +7,7 @@ use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,15 +24,21 @@ class PostResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
-    public static function getRelations(): array
+    public static function getNavigationIcon(): string
     {
-        return [
-            //
-        ];
+        return request()->routeIs('filament.admin.resources.posts.*')
+            ? 'heroicon-s-document-text'
+            : 'heroicon-o-document-text';
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewPost::class,
+            Pages\EditPost::class,
+        ]);
     }
 
     public static function getPages(): array

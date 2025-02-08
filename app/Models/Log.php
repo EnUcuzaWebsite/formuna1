@@ -12,10 +12,12 @@ class Log extends Model
         'loggable_id',
         'loggable_type',
         'log',
+        'changes',
     ];
 
     protected $casts = [
         'log' => 'json',
+        'changes' => 'array',
     ];
 
     protected static function boot()

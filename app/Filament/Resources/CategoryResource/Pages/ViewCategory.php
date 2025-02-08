@@ -69,8 +69,6 @@ class ViewCategory extends ViewRecord
                                         ->url(fn($record) => route('filament.admin.resources.posts.view', $record)),
                                 ])
                             ]),
-
-
                     ]),
             ]);
     }
