@@ -2,10 +2,10 @@
     <header class="flex items-center justify-between">
         <div class="flex items-center gap-4 relative">
             <div class="flex items-center gap-1 relative">
-                <button class="flex items-center gap-2">
+                <a href="{{ route("user.details", $post->user->id) }}" class="flex items-center gap-2">
                     <img src="{{  $post->user->getFilamentAvatarUrl() }}" class="rounded-full h-8 w-8" alt="">
                     <span class="text-sm">{{ $post->user->name }}</span>
-                </button>
+                </a>
                 @if($post->user->id !== auth()->user()->id)
                     <div>
                         <livewire:follow-button :user="$post->user"/>

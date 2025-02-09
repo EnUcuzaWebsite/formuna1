@@ -21,6 +21,7 @@ Route::get('/logout', function () {
 Route::group(['middleware' => 'auth'], function () {
     Volt::route('/', Home::class)->name('home');
     Volt::route('/post/{post}', \App\Livewire\PostDetail::class)->name('post.show');
+    Volt::route('/user-detail/{user}', \App\Livewire\UserDetails::class )->name('user.details');
 });
 
 require __DIR__ . '/auth.php';

@@ -10,7 +10,7 @@
         @vite('resources/css/app.css')
     </head>
 
-    <body class="gradient-background text-white">
+    <body class="gradient-background text-white dark">
         {{ $slot }}
         @livewire('notifications')
         @filamentScripts
