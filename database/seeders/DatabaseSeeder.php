@@ -130,25 +130,5 @@ class DatabaseSeeder extends Seeder
                 'topic_id' => rand(1, count($topics)),
             ]);
         }
-
-        // Create reports
-        $reportReasons = [
-            'Inappropriate content',
-            'Spam',
-            'Harassment',
-            'False information',
-            'Copyright violation',
-        ];
-
-        for ($i = 0; $i < 15; $i++) {
-            \App\Models\Report::create([
-                'reported_type' => rand(0, 1) ? 'post' : 'user',
-                'reported_id' => rand(1, 30),
-                'reporter_id' => rand(1, 10),
-                'reason' => $reportReasons[array_rand($reportReasons)],
-                'status' => fake()->randomElement(['pending', 'resolved', 'rejected']),
-
-            ]);
-        }
     }
 }

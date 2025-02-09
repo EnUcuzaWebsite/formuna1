@@ -19,7 +19,6 @@ class UserResource extends Resource
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
-
     public static function getNavigationIcon(): string
     {
         return request()->routeIs('filament.admin.resources.users.*')

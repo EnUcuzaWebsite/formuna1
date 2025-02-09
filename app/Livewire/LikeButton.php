@@ -10,18 +10,17 @@ use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
-use Filament\Support\Contracts\TranslatableContentDriver;
-use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
-class LikeButton extends Component implements HasForms, HasActions
+class LikeButton extends Component implements HasActions, HasForms
 {
     use InteractsWithActions;
     use InteractsWithForms;
 
     public ?Post $post;
 
-    public function mount(Post $post){
+    public function mount(Post $post)
+    {
         $this->post = $post;
     }
 
@@ -32,14 +31,29 @@ class LikeButton extends Component implements HasForms, HasActions
             ->icon($this->post->isLiked() ? 'heroicon-s-hand-thumb-up' : 'heroicon-o-hand-thumb-up')
             ->action(function () {
                 if ($this->post->isLiked()) {
-                    LikedPost::where(['post_id' => $this->post->id, 'user_id' => auth()->id()])->delete();
+                    $unliked_post = LikedPost::where(['post_id' => $this->post->id, 'user_id' => auth()->id()])->first();
+                    $unliked_post->log([
+                        'type' => 'unlike',
+                        'message' => '<strong>
+                                         <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                            '.auth()->user()->name.'
+                                        </a>
+                                        </strong>
+                                      <small> beğeniyi kaldırdı </small>
+                                      <strong>
+                                        <a href="'.route('filament.admin.resources.posts.view', ['record' => $this->post]).'">
+                                            '.$this->post->id.' -> post
+                                        </a>
+                                      </strong>
+                                       ',
+                    ]);
+                    $unliked_post->deleteQuietly();
                     Notification::make()
                         ->title('Beğeni Kaldırıldı')
                         ->warning()
                         ->icon('heroicon-s-hand-thumb-down')
                         ->send();
-                }
-                else{
+                } else {
                     $this->post->likepost();
                     Notification::make()
                         ->title('Forum Beğenildi')

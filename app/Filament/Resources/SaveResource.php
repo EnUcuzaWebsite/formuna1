@@ -3,16 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SaveResource\Pages;
-use App\Filament\Resources\SaveResource\RelationManagers;
-use App\Models\Save;
 use App\Models\SavedPost;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SaveResource extends Resource
 {
@@ -33,9 +25,9 @@ class SaveResource extends Resource
     {
         return [
             'index' => Pages\ListSaves::route('/'),
-//            'create' => Pages\CreateSave::route('/create'),
-//            'view' => Pages\ViewSave::route('/{record}'),
-//            'edit' => Pages\EditSave::route('/{record}/edit'),
+            //            'create' => Pages\CreateSave::route('/create'),
+            //            'view' => Pages\ViewSave::route('/{record}'),
+            //            'edit' => Pages\EditSave::route('/{record}/edit'),
         ];
     }
 }

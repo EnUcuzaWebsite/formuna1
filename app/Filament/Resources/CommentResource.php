@@ -3,22 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CommentResource\Pages;
-use App\Filament\Resources\CommentResource\RelationManagers;
 use App\Models\Comment;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
-
 
     protected static ?string $navigationLabel = 'Yorumlar';
 
@@ -40,7 +32,6 @@ class CommentResource extends Resource
             Pages\EditComment::class,
         ]);
     }
-
 
     public static function getPages(): array
     {

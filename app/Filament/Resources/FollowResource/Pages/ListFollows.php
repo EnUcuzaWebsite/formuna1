@@ -4,7 +4,6 @@ namespace App\Filament\Resources\FollowResource\Pages;
 
 use App\Filament\Resources\FollowResource;
 use App\Models\Follow;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -39,6 +38,4 @@ class ListFollows extends ListRecords
                     ->sortable(),
             ]);
     }
-
-
 }

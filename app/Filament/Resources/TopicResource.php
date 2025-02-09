@@ -5,10 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TopicResource\Pages;
 use App\Models\Topic;
 use Filament\Pages\Page;
-use Filament\Resources\Resource;
 use Filament\Pages\SubNavigationPosition;
-
-
+use Filament\Resources\Resource;
 
 class TopicResource extends Resource
 {

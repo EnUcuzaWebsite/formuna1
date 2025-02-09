@@ -3,9 +3,7 @@
 namespace App\Filament\Resources\LikeResource\Pages;
 
 use App\Filament\Resources\LikeResource;
-use App\Models\Follow;
 use App\Models\LikedPost;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -15,7 +13,6 @@ class ListLikes extends ListRecords
     protected static string $resource = LikeResource::class;
 
     protected static ?string $title = 'Beğenmeler';
-
 
     public function table(Table $table): Table
     {
@@ -40,6 +37,4 @@ class ListLikes extends ListRecords
                     ->sortable(),
             ]);
     }
-
-
 }

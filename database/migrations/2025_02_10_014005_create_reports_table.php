@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->enum('reported_type', ['post', 'user']);
-            $table->unsignedBigInteger('reported_id');
-            $table->unsignedBigInteger('reporter_id');
-            $table->text('reason');
-            $table->string('status')->default('pending');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->morphs('reportable');
+            $table->json('report');
             $table->timestamps();
         });
     }

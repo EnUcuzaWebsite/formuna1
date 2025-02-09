@@ -3,9 +3,7 @@
 namespace App\Filament\Resources\SaveResource\Pages;
 
 use App\Filament\Resources\SaveResource;
-use App\Models\Post;
 use App\Models\SavedPost;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;

@@ -13,8 +13,6 @@ class CreateTopic extends CreateRecord
 {
     protected static string $resource = TopicResource::class;
 
-
-
     public function form(Form $form): Form
     {
         return $form
@@ -32,7 +30,7 @@ class CreateTopic extends CreateRecord
                     ->label('Kategori')
                     ->suffixIcon('heroicon-o-tag')
                     ->options(
-                        fn() => \App\Models\Category::all()->pluck('name', 'id')
+                        fn () => \App\Models\Category::all()->pluck('name', 'id')
                     )
                     ->required(),
                 Textarea::make('detail')

@@ -40,7 +40,7 @@ $dropdownList = [
                 <button wire:click="notification">
                     <x-icon class="size-5 text-zinc-400 hover:text-white cursor-pointer" name="heroicon-o-bell"/>
                 </button>
-                @livewire('create-button')
+                @livewire('post-action')
 
             </div>
 

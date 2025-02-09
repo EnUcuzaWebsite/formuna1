@@ -3,15 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LogResource\Pages;
-use App\Filament\Resources\LogResource\RelationManagers;
 use App\Models\Log;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LogResource extends Resource
 {
@@ -21,41 +17,11 @@ class LogResource extends Resource
 
     protected static ?int $navigationSort = 9;
 
-    protected static ?string $navigationIcon = 'heroicon-o-finger-print';
-
-    public static function form(Form $form): Form
+    public static function getNavigationIcon(): string
     {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+        return request()->routeIs('filament.admin.resources.logs.*')
+            ? 'heroicon-s-finger-print'
+            : 'heroicon-o-finger-print';
     }
 
     public static function getPages(): array
@@ -64,7 +30,7 @@ class LogResource extends Resource
             'index' => Pages\ListLogs::route('/'),
             'create' => Pages\CreateLog::route('/create'),
             'view' => Pages\ViewLog::route('/{record}'),
-            'edit' => Pages\EditLog::route('/{record}/edit'),
+//            'edit' => Pages\EditLog::route('/{record}/edit'),
         ];
     }
 }

@@ -18,10 +18,10 @@ use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Livewire\Component;
 
-class CreateButton extends Component implements HasActions, HasForms
+class PostAction extends Component implements HasForms, HasActions
 {
-    use InteractsWithActions;
     use InteractsWithForms;
+    use InteractsWithActions;
 
     public function modalAction()
     {
@@ -60,19 +60,36 @@ class CreateButton extends Component implements HasActions, HasForms
             ])
             ->action(function (array $data) {
                 $data['user_id'] = auth()->id();
-                Post::create($data);
+                $newpost = Post::createQuietly($data);
+
+                $newpost->log([
+                   'type' => 'create post',
+                   'message' => '<strong>
+                                         <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                            '.auth()->user()->name.'
+                                        </a>
+                                        </strong>
+                                      <small> Gönderdi </small>
+                                      <strong>
+                                        <a href="'.route('filament.admin.resources.posts.view', ['record' => $newpost]).'">
+                                            '.$newpost->id.' -> post
+                                        </a>
+                                      </strong>
+                                       ',
+                ]);
+
                 Notification::make()
                     ->title('Form Oluşturuldu')
                     ->success()
                     ->icon('heroicon-o-document-text')
                     ->send();
-                redirect(route('home'));
+                redirect(route('post.show', $newpost));
             });
 
     }
 
     public function render()
     {
-        return view('livewire.create-button');
+        return view('livewire.post-action');
     }
 }

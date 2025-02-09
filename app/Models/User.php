@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Loggable;
+use App\Reportable;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -27,6 +28,7 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     use HasRoles;
     use InteractsWithMedia;
     use Loggable;
+    use Reportable;
 
     /**
      * The attributes that are mass assignable.
@@ -78,11 +80,6 @@ class User extends Authenticatable implements FilamentUser, HasMedia
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
-    }
-
-    public function reports(): HasMany
-    {
-        return $this->hasMany(Report::class, 'reporter_id');
     }
 
     public function likedForms(): HasMany
@@ -141,19 +138,38 @@ class User extends Authenticatable implements FilamentUser, HasMedia
 
     public function isfollowed(): bool
     {
-        return $this->followers()->where('follower_id' , auth()->id())->exists();
+        return $this->followers()->where('follower_id', auth()->id())->exists();
     }
 
-    public function follow(): void {
-        Follow::create([
+    public function follow(): void
+    {
+        $follow = Follow::createQuietly([
             'follower_id' => auth()->id(),
-            'followed_id' => $this->id
+            'followed_id' => $this->id,
+        ]);
+
+        $follow->log([
+            'type' => 'follow',
+            'message' =>  '
+                            <strong>
+                                <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                    '.auth()->user()->name.'
+                                </a>
+
+                            </strong>
+                            <small> Takip etti </small>
+                            <strong>
+                                <a href="'.route('filament.admin.resources.users.view', ['record' => $this]).'">
+                                    '.$this->name.'
+                                </a>
+                            </strong>
+                                ',
         ]);
     }
 
     public function isActive(): bool
     {
-        return !$this->suspensions()->where('expires_at', '>', now())->exists();
+        return ! $this->suspensions()->where('expires_at', '>', now())->exists();
     }
 
     public function isSuspended(): bool

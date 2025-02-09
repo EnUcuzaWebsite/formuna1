@@ -21,7 +21,6 @@ class EditTopic extends EditRecord
         ];
     }
 
-
     public function form(Form $form): Form
     {
         return $form
@@ -39,7 +38,7 @@ class EditTopic extends EditRecord
                     ->label('Kategori')
                     ->suffixIcon('heroicon-o-tag')
                     ->options(
-                        fn() => \App\Models\Category::all()->pluck('name', 'id')
+                        fn () => \App\Models\Category::all()->pluck('name', 'id')
                     )
                     ->required(),
                 Textarea::make('detail')

@@ -7,6 +7,15 @@ body {
     @apply antialiased
 }
 
+.comment-button {
+    color: black !important;
+    background: whitesmoke;
+}
+
+.comment-button svg {
+    stroke: black !important;
+}
+
 .gradient-background {
     background: linear-gradient(to bottom left, #0f172a, #1e293b, #231f39);
     color: white;
