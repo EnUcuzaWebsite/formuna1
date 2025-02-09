@@ -12,7 +12,6 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ViewRecord;
 
-
 class ViewCategory extends ViewRecord
 {
     protected static string $resource = CategoryResource::class;
@@ -41,7 +40,7 @@ class ViewCategory extends ViewRecord
                             ->label('Açıklama')
                             ->columnSpanFull(),
                         TextEntry::make('post_count')
-                            ->getStateUsing(fn() => $this->record->posts()->count())
+                            ->getStateUsing(fn () => $this->record->posts()->count())
                             ->label('Post Sayısı')
                             ->columnSpanFull(),
                     ]),
@@ -66,8 +65,8 @@ class ViewCategory extends ViewRecord
                                     Action::make('view')
                                         ->label('Görüntüle')
                                         ->icon('heroicon-o-eye')
-                                        ->url(fn($record) => route('filament.admin.resources.posts.view', $record)),
-                                ])
+                                        ->url(fn ($record) => route('filament.admin.resources.posts.view', $record)),
+                                ]),
                             ]),
                     ]),
             ]);

@@ -16,7 +16,6 @@ class ViewTopic extends ViewRecord
 {
     protected static string $resource = TopicResource::class;
 
-
     public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
     {
         return $this->record->name;
@@ -43,7 +42,7 @@ class ViewTopic extends ViewRecord
                             ->columnSpan(2),
                         TextEntry::make('category.name')
                             ->label('Kategori')
-                            ->url(fn() => route('filament.admin.resources.categories.view', $this->record->category))
+                            ->url(fn () => route('filament.admin.resources.categories.view', $this->record->category))
                             ->extraAttributes(['class' => 'view-url']),
                     ]),
 
@@ -68,16 +67,11 @@ class ViewTopic extends ViewRecord
                                     Action::make('view')
                                         ->label('Görüntüle')
                                         ->icon('heroicon-o-eye')
-                                        ->url(fn($record) => route('filament.admin.resources.posts.view', $record)),
-                                ])
+                                        ->url(fn ($record) => route('filament.admin.resources.posts.view', $record)),
+                                ]),
                             ]),
                     ]),
 
-
-
-
             ]);
     }
-
-
 }

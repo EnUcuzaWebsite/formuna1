@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\CommentResource\Pages;
 
 use App\Filament\Resources\CommentResource;
-use Filament\Actions;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Group;
 use Filament\Infolists\Components\TextEntry;
@@ -13,8 +12,6 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewComment extends ViewRecord
 {
     protected static string $resource = CommentResource::class;
-
-
 
     public function infolist(Infolist $infolist): Infolist
     {
@@ -32,12 +29,12 @@ class ViewComment extends ViewRecord
 
                         TextEntry::make('post.category.name')
                             ->label('Kategori')
-                            ->url(fn() => route('filament.admin.resources.topics.view', $this->record->post->category))
+                            ->url(fn () => route('filament.admin.resources.topics.view', $this->record->post->category))
                             ->extraAttributes(['class' => 'view-url']),
 
                         TextEntry::make('post.topic.name')
                             ->label('Konu')
-                            ->url(fn() => route('filament.admin.resources.topics.view', $this->record->post->topic))
+                            ->url(fn () => route('filament.admin.resources.topics.view', $this->record->post->topic))
                             ->extraAttributes(['class' => 'view-url']),
 
                     ]),
@@ -50,7 +47,7 @@ class ViewComment extends ViewRecord
                                     ->hiddenLabel()
                                     ->icon('heroicon-o-eye')
                                     ->size('w-full')
-                                    ->url(fn() => route('filament.admin.resources.posts.view', [$this->record->post]))
+                                    ->url(fn () => route('filament.admin.resources.posts.view', [$this->record->post]))
                             )
                             ->label('Post'),
                         TextEntry::make('comment')

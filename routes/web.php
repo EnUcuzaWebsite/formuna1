@@ -1,7 +1,6 @@
 <?php
 
 use App\Livewire\Home;
-use App\Models\Follow;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -23,4 +22,4 @@ Route::group(['middleware' => 'auth'], function () {
     Volt::route('/post/{post}', \App\Livewire\PostDetail::class)->name('post.show');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

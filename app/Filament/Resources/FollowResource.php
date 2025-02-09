@@ -3,17 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FollowResource\Pages;
-use App\Filament\Resources\FollowResource\RelationManagers;
 use App\Models\Follow;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Pages\Page;
-use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FollowResource extends Resource
 {
@@ -36,9 +27,9 @@ class FollowResource extends Resource
     {
         return [
             'index' => Pages\ListFollows::route('/'),
-//            'create' => Pages\CreateFollow::route('/create'),
-//            'view' => Pages\ViewFollow::route('/{record}'),
-//            'edit' => Pages\EditFollow::route('/{record}/edit'),
+            //            'create' => Pages\CreateFollow::route('/create'),
+            //            'view' => Pages\ViewFollow::route('/{record}'),
+            //            'edit' => Pages\EditFollow::route('/{record}/edit'),
         ];
     }
 }

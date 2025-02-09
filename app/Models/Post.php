@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Loggable;
+use App\Reportable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +11,8 @@ class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
+    use Loggable;
+    use Reportable;
 
     protected $fillable = [
         'user_id',
@@ -59,10 +63,6 @@ class Post extends Model
         return $this->hasMany(SavedPost::class);
     }
 
-    public function reports()
-    {
-        return $this->morphMany(Report::class, 'reported');
-    }
 
     public function isliked(): bool
     {
@@ -76,18 +76,54 @@ class Post extends Model
 
     public function savepost(): void
     {
-        SavedPost::create([
+        $saved_post = SavedPost::createQuietly([
             'user_id' => auth()->id(),
-            'post_id' => $this->id
+            'post_id' => $this->id,
         ]);
+
+        $saved_post->log([
+            'type' => 'save',
+            'message' => '
+                        <strong>
+                             <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                '.auth()->user()->name.'
+                            </a>
+                        </strong>
+                        <small> Kaydetti </small>
+                        <strong>
+                            <a href="'.route('filament.admin.resources.posts.view', ['record' => $this]).'">
+                                '.$this->id.' -> post
+                            </a>
+                        </strong>
+                       ',
+        ]);
+
     }
 
     public function likepost(): void
     {
-        LikedPost::create([
+        $liked_post = LikedPost::createQuietly([
             'user_id' => auth()->id(),
-            'post_id' => $this->id
+            'post_id' => $this->id,
         ]);
+
+        $liked_post->log([
+            'type' => 'like',
+            'message' => '
+                        <strong>
+                             <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                '.auth()->user()->name.'
+                            </a>
+                        </strong>
+                        <small> Beğendi </small>
+                        <strong>
+                            <a href="'.route('filament.admin.resources.posts.view', ['record' => $this]).'">
+                                '.$this->id.' -> post
+                            </a>
+                        </strong>
+                       ',
+        ]);
+
     }
 
     public function scopeMostSharedCategory($query, $count = 1)

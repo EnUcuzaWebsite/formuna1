@@ -24,7 +24,19 @@ class CreateUser extends CreateRecord
 
         $record->log([
             'type' => 'created',
-            'message' => '<strong>'.auth()->user()->name.'</strong> <small> oluşturdu </small> <strong><u> <a href="'.route('filament.admin.resources.users.view', ['record' => $record]).'">'.$data['name'].'</a></u></strong>',
+            'message' => '
+                        <strong>
+                            <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                '.auth()->user()->name.'
+                            </a>
+
+                        </strong>
+                        <small> oluşturdu </small>
+                        <strong>
+                            <a href="'.route('filament.admin.resources.users.view', ['record' => $record]).'">
+                                '.$data['name'].'
+                            </a>
+                        </strong>',
         ]);
 
         return $record;

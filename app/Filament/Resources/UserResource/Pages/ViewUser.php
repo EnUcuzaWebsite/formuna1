@@ -46,11 +46,11 @@ class ViewUser extends ViewRecord
                             ->bulleted()
                             ->listWithLineBreaks(),
                         IconEntry::make('status')
-                            ->icon(fn(string $state): string => match ($state) {
+                            ->icon(fn (string $state): string => match ($state) {
                                 'active' => 'heroicon-o-check-circle',
                                 'inactive' => 'heroicon-o-x-circle',
                             })
-                            ->color(fn(string $state): string => match ($state) {
+                            ->color(fn (string $state): string => match ($state) {
                                 'active' => 'success',
                                 'inactive' => 'danger',
                                 default => 'gray',
@@ -68,7 +68,7 @@ class ViewUser extends ViewRecord
                 RepeatableEntry::make('user_logs')
                     ->label('Loglar')
                     ->columnSpan(3)
-                    ->hidden(fn() => $this->record->user_logs->isEmpty())
+                    ->hidden(fn () => $this->record->user_logs->isEmpty())
                     ->extraAttributes([
                         'class' => 'user-activiy',
                     ])

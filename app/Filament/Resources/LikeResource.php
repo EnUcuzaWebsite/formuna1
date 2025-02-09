@@ -3,18 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LikeResource\Pages;
-use App\Filament\Resources\LikeResource\RelationManagers;
-use App\Models\Like;
 use App\Models\LikedPost;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Pages\Page;
-use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LikeResource extends Resource
 {
@@ -35,9 +25,9 @@ class LikeResource extends Resource
     {
         return [
             'index' => Pages\ListLikes::route('/'),
-//            'create' => Pages\CreateLike::route('/create'),
-//            'view' => Pages\ViewLike::route('/{record}'),
-//            'edit' => Pages\EditLike::route('/{record}/edit'),
+            //            'create' => Pages\CreateLike::route('/create'),
+            //            'view' => Pages\ViewLike::route('/{record}'),
+            //            'edit' => Pages\EditLike::route('/{record}/edit'),
         ];
     }
 }

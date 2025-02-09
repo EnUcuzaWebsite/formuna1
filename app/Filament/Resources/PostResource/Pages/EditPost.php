@@ -24,7 +24,6 @@ class EditPost extends EditRecord
         ];
     }
 
-
     public function form(Form $form): Form
     {
         return $form
@@ -42,8 +41,8 @@ class EditPost extends EditRecord
                 Select::make('topic_id')
                     ->label('Konu')
                     ->native(false)
-                    ->disabled(fn(Get $get) => !$get('category_id'))
-                    ->options(fn(Get $get) => $get('category_id') ? Topic::where('category_id', $get('category_id'))->get()->pluck('name', 'id') : [])
+                    ->disabled(fn (Get $get) => ! $get('category_id'))
+                    ->options(fn (Get $get) => $get('category_id') ? Topic::where('category_id', $get('category_id'))->get()->pluck('name', 'id') : [])
                     ->required(),
                 RichEditor::make('content')
                     ->label('İçerik')
