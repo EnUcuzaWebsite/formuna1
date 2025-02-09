@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PostResource\Pages;
 
 use App\Filament\Resources\PostResource;
+use App\Models\LikedPost;
 use Filament\Actions;
 use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\Fieldset;
@@ -103,8 +104,8 @@ class ViewPost extends ViewRecord
                             ->columnSpanFull()
                             ->schema([
                                 TextEntry::make('user.name')
-                                    ->hiddenLabel(),
-
+                                    ->hiddenLabel()
+                                    ->url(fn ($state, $record) => route('filament.admin.resources.users.view', $record->user->id)),
                             ])
 
                     ]),
