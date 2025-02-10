@@ -29,7 +29,7 @@ class LogResource extends Resource
         return [
             'index' => Pages\ListLogs::route('/'),
             'create' => Pages\CreateLog::route('/create'),
-            'view' => Pages\ViewLog::route('/{record}'),
+//            'view' => Pages\ViewLog::route('/{record}'),
 //            'edit' => Pages\EditLog::route('/{record}/edit'),
         ];
     }

@@ -60,6 +60,7 @@
                             </button>
                         </div>
 
+
                         <div class="p-6 rounded-xl">
                             <template x-if="content_type === 'gonderiler'">
                                 <ul class="text-gray-200 text-center flex flex-col gap-y-4">

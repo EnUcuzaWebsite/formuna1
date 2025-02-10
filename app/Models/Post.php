@@ -20,7 +20,6 @@ class Post extends Model
         'topic_id',
         'title',
         'content',
-        'views',
         'status',
     ];
 
@@ -72,6 +71,11 @@ class Post extends Model
     public function issaved(): bool
     {
         return $this->saves()->where('user_id', auth()->id())->exists();
+    }
+
+    public function isactive(): bool
+    {
+        return $this->status == 'active';
     }
 
     public function savepost(): void

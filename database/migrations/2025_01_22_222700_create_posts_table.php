@@ -18,7 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('topic_id');
             $table->string('title');
             $table->text('content');
-            $table->integer('views')->default(0);
             $table->string('status')->default('active');
             $table->timestamps();
         });

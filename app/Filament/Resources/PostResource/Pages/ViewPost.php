@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\PostResource\Pages;
 
 use App\Filament\Resources\PostResource;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Textarea;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
@@ -14,24 +16,72 @@ class ViewPost extends ViewRecord
 {
     protected static string $resource = PostResource::class;
 
+    public function getHeaderActions(): array
+    {
+        return [
+            Action::make('inactive')
+                ->label($this->record->isactive() ? 'Engelle' : 'Aktifleştir' )
+                ->icon($this->record->isactive() ? 'heroicon-o-exclamation-triangle' : 'heroicon-o-check-circle')
+                ->form([
+                    Textarea::make('reason')
+                        ->label('Neden')
+                ])
+                ->color($this->record->isactive() ? 'danger' : 'success')
+                ->requiresConfirmation()
+                ->action(function (array $data) {
+
+
+                    if ($this->record->isactive()){
+                        $this->record->status = 'inactive';
+                        $this->record->saveQuietly();
+                        $this->record->log([
+                            'type' => 'inactive post',
+                            'message' => '<strong>
+                                         <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                            '.auth()->user()->name.'
+                                        </a>
+                                        </strong>
+                                      <small> '. $data['reason'] . ' nedeniyle Engelledi</small>
+                                      <strong>
+                                        <a href="'.route('filament.admin.resources.posts.view', ['record' => $this->record]).'">
+                                            '.$this->record->id.' -> post
+                                        </a>
+                                      </strong>
+                                       ',
+                        ]);
+                    }
+                    else{
+                        $this->record->status = 'active';
+                        $this->record->saveQuietly();
+                        $this->record->log([
+                            'type' => 'active post',
+                            'message' => '<strong>
+                                         <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                            '.auth()->user()->name.'
+                                        </a>
+                                        </strong>
+                                      <small> '. $data['reason'] . ' nedeniyle aktifleştirdi</small>
+                                      <strong>
+                                        <a href="'.route('filament.admin.resources.posts.view', ['record' => $this->record]).'">
+                                            '.$this->record->id.' -> post
+                                        </a>
+                                      </strong>
+                                       ',
+                             ]);
+                    }
+
+
+                })
+            ];
+
+
+    }
+
     public function infolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->columns(2)
             ->schema([
-                Fieldset::make('Başlık')
-                    ->schema([
-                        TextEntry::make('title')
-                            ->hiddenLabel(),
-                    ]),
-                Fieldset::make('İçerik')
-                    ->schema([
-                        TextEntry::make('content')
-                            ->columnSpanFull()
-                            ->html()
-                            ->hiddenLabel(),
-                    ]),
-
                 Fieldset::make('Detaylar')
                     ->columns(4)
                     ->schema([
@@ -40,6 +90,14 @@ class ViewPost extends ViewRecord
                         TextEntry::make('created_at')
                             ->label('Oluşturulma Tarihi')
                             ->date(),
+                        TextEntry::make('status')
+                            ->label('Durum')
+                            ->badge()
+                            ->color(fn (string $state): string => match ($state) {
+                                'active' => 'success',
+                                'inactive' => 'danger',
+                            }),
+
                         TextEntry::make('category.name')
                             ->label('Kategori')
                             ->url(fn () => route('filament.admin.resources.categories.view', $this->record->category))
@@ -63,6 +121,18 @@ class ViewPost extends ViewRecord
                             ->label('Şikayet Sayısı')
                             ->getStateUsing(fn () => $this->record->reports()->count()),
 
+                    ]),
+                Fieldset::make('Başlık')
+                    ->schema([
+                        TextEntry::make('title')
+                            ->hiddenLabel(),
+                    ]),
+                Fieldset::make('İçerik')
+                    ->schema([
+                        TextEntry::make('content')
+                            ->columnSpanFull()
+                            ->html()
+                            ->hiddenLabel(),
                     ]),
 
                 Section::make('Yorumlar')
@@ -135,7 +205,8 @@ class ViewPost extends ViewRecord
                             ->schema([
                                 TextEntry::make('user.name')
                                     ->hiddenLabel(),
-
+                                TextEntry::make('report.reason')
+                                    ->label('Neden'),
                             ]),
 
                     ]),

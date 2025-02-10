@@ -4,7 +4,10 @@ namespace App\Filament\Resources\LogResource\Pages;
 
 use App\Filament\Resources\LogResource;
 use Filament\Actions;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -33,6 +36,38 @@ class ListLogs extends ListRecords
                 TextColumn::make('created_at')
                     ->label('Tarih')
                     ->datetime(),
+            ])
+            ->actions([
+                Action::make('view')
+                    ->hiddenLabel()
+                    ->icon('heroicon-o-eye')
+                    ->modalSubmitAction(false)
+                    ->modalCancelAction(false)
+                    ->modalHeading('Log')
+                    ->infolist([
+                        TextEntry::make('log.message')
+                            ->columnSpanFull()
+                            ->label('Mesaj')
+                            ->html(),
+                        TextEntry::make('log.type')
+                            ->label('Log Tipi'),
+                        TextEntry::make('created_at')
+                            ->dateTime()
+                            ->label('Tarih'),
+                        RepeatableEntry::make('changes')
+                            ->label('Değişiklikler')
+                            ->hiddenLabel()
+                            ->schema([
+                                TextEntry::make('field')
+                                    ->suffix(':')
+                                    ->weight('bold')
+                                    ->hiddenLabel(),
+                                TextEntry::make('old')
+                                    ->label('Eski'),
+                                TextEntry::make('new')
+                                    ->label('Yeni'),
+                            ]),
+                    ])
             ]);
     }
 }
