@@ -24,9 +24,9 @@
                 </div>
             </div>
             <div class="">
-                <div class="px-4 py-2 rounded-md hover:bg-gray-500 flex gap-x-2 cursor-pointer items-center">
-                    <x-heroicon-m-user-plus class="size-6"/>
-                    <span class="text-sm">Takip et</span>
+                <div class="px-4 py-2 flex gap-x-2 cursor-pointer items-center">
+                    <livewire:follow-button :user="$user" :button="true"/>
+                    <livewire:report-action :user="$user"/>
                 </div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                         <template x-if="content_type === 'gonderiler'">
                             <ul class="text-gray-200 text-center flex flex-col gap-y-4">
                                 @foreach($user->forms as $form)
-                                    <livewire:post-view :post="$form"/>
+                                    <livewire:post-view :post="$form" :nofollow="true"/>
                                 @endforeach
                             </ul>
                         </template>

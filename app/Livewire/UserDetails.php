@@ -7,11 +7,11 @@ use Livewire\Component;
 
 class UserDetails extends Component
 {
-    public $user;
+    public ?User $user;
 
-    public function mount($user)
+    public function mount(User $user)
     {
-        $this->user = User::findOrFail($user);
+        $this->user = $user;
     }
 
     public function render()

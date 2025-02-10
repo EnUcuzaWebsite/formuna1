@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
 use Livewire\Component;
 
 class FollowersModal extends Component
 {
     public $isShowModal = false;
-    public $user;
+    public ?User $user;
     public function openModal()
     {
         $this->isShowModal = true;
@@ -18,7 +19,7 @@ class FollowersModal extends Component
         $this->isShowModal = false;
     }
 
-    public function mount($user)
+    public function mount(User $user)
     {
         $this->user = $user;
     }
