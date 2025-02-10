@@ -11,10 +11,10 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4 relative">
                     <div class="flex items-center gap-1 relative">
-                        <button href="#" class="flex items-center gap-2">
+                        <a href="{{ route("user.details", $post->user) }}" class="flex items-center gap-2">
                             <img src="{{  $post->user->getFilamentAvatarUrl() }}" class="rounded-full h-8 w-8" alt="">
                             <span class="text-sm">{{ $post->user->name }}</span>
-                        </button>
+                        </a>
                         @if($post->user->id !== auth()->user()->id)
                             <livewire:follow-button :user="$post->user"/>
                         @endif
@@ -41,6 +41,7 @@
         </div>
     </div>
 
+{{--COMMENTS--}}
 
     <div class="mt-8">
         <h2 class="text-lg font-semibold">Yorumlar</h2>
@@ -52,24 +53,20 @@
         @endif
             @foreach($post->comments as $comment)
                 <ul class="space-y-4 mt-4 overflow-auto">
-                    <li class="flex gap-4 p-4 bg-transparent rounded-md">
-                        <img src="{{ $comment->user->getFilamentAvatarUrl() }}" alt="User Avatar"
-                             class="rounded-full h-12 w-12 border-2 border-gray-200">
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <span class="">{{ $comment->user->name }}</span>
-                                    @if($post->user->id !== auth()->user()->id)
-                                        <livewire:follow-button :user="$comment->user"/>
-                                    @endif
-                                </div>
-                                <span class="text-xs text-gray-200">{{ $comment->created_at->diffForHumans() }}</span>
-
-                            </div>
-                            <p class="mt-2 text-sm text-gray-200">
-                                {{ strip_tags($comment->comment) }}
-                            </p>
+                    <li class="flex-1 gap-4 p-4 bg-transparent rounded-md">
+                        <div class="flex items-center justify-start gap-2">
+                            <a href="{{ route("user.details", $comment->user) }}" class="flex items-center gap-2">
+                                <img src="{{  $comment->user->getFilamentAvatarUrl() }}" class="rounded-full h-8 w-8" alt="">
+                                <span class="text-sm">{{ $comment->user->name }}</span>
+                            </a>
+                            @if($post->user->id !== auth()->user()->id)
+                                <livewire:follow-button :user="$comment->user"/>
+                            @endif
+                            <span class="text-xs text-gray-200">{{ $comment->created_at->diffForHumans() }}</span>
                         </div>
+                        <p class="mt-4 text-sm text-gray-200">
+                            {{ strip_tags($comment->comment) }}
+                        </p>
                     </li>
                 </ul>
             @endforeach
