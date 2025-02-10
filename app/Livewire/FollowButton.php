@@ -19,17 +19,25 @@ class FollowButton extends Component implements HasActions, HasForms
 
     public ?User $user;
     public bool $button;
+    public string $label;
 
     public function mount(User &$user, bool $button = false): void
     {
         $this->button = $button;
         $this->user = $user;
+        if ($this->button && $this->user->isfollowed())
+            $this->label = 'Takip Ediliyor';
+        elseif ($this->button)
+            $this->label = 'Takip Et';
+        else
+            $this->label = '';
+
     }
 
     public function followAction(): Action
     {
         return Action::make('follow')
-            ->label($this->button ? 'Takip Et' : '')
+            ->label($this->label)
             ->extraAttributes([
                 'style' => 'padding: 0 !important',
             ])

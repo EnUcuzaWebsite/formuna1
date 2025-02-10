@@ -40,11 +40,6 @@ class Topic extends Model
         return $this->hasMany(FavoriteTopic::class);
     }
 
-    public function reports()
-    {
-        return $this->morphMany(Report::class, 'reported');
-    }
-
     public function latest_posts()
     {
         return $this->hasMany(Post::class)->latest()->limit(3);

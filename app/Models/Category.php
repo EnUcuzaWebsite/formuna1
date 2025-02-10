@@ -44,9 +44,4 @@ class Category extends Model
     {
         return $this->hasMany(FavoriteCategory::class);
     }
-
-    public function reports()
-    {
-        return $this->morphMany(Report::class, 'reported');
-    }
 }

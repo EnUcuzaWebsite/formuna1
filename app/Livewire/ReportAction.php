@@ -49,7 +49,7 @@ class ReportAction extends Component implements HasForms, HasActions
                                       <small> Şikayet Etti </small>
                                       <strong>
                                         <a href="'.route('filament.admin.resources.users.view', ['record' => $this->user]).'">
-                                            '.$this->user->id.' -> post
+                                            '.$this->user->name.'
                                         </a>
                                       </strong>
                                        ',
