@@ -3,6 +3,12 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
+use App\Models\UserSuspension;
+use Filament\Actions\Action;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
@@ -10,6 +16,7 @@ use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Database\Eloquent\Model;
 
 class ViewUser extends ViewRecord
 {
@@ -18,6 +25,94 @@ class ViewUser extends ViewRecord
     public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
     {
         return $this->record->name;
+    }
+
+    public function getHeaderActions(): array
+    {
+        return [
+            Action::make('suspend')
+                ->label($this->record->isActive() ? 'Engelle' : 'Engeli Kaldır' )
+                ->icon($this->record->isActive() ? 'heroicon-o-exclamation-triangle' : 'heroicon-o-check-circle')
+                ->color($this->record->isActive() ? 'danger' : 'success')
+                ->form([
+                    Select::make('status')
+                        ->label('Status')
+                        ->options([
+                            'suspended' => 'Suspended',
+                            'banned' => 'Banned',
+                        ])
+                        ->default('suspended')
+                        ->required(),
+                    Textarea::make('reason')
+                        ->label('Reason')
+                        ->required(),
+                    DatePicker::make('starts_at')
+                        ->label('Starts At')
+                        ->default(now())
+                        ->required(),
+                    TextInput::make('expires_days')
+                        ->label('Expires Days')
+                        ->numeric()
+                        ->integer()
+                        ->required(),
+                ])
+                ->action(function (Model $record, array $data) {
+                    if ($record->isActive()) {
+                        $data['expires_at'] = now()->addDays(intval($data['expires_days']));
+                        $suspension = UserSuspension::createQuietly([
+                            'user_id' => $record->id,
+                            'status' => $data['status'],
+                            'reason' => $data['reason'],
+                            'starts_at' => $data['starts_at'],
+                            'expires_at' => $data['expires_at'],
+                        ]);
+
+                        $suspension->log([
+                            'type' => $data['status'],
+                            'message' => '<strong>
+                                         <a href="'.route('filament.admin.resources.users.view', ['record' => auth()->user()]).'">
+                                            '.auth()->user()->name.'
+                                        </a>
+                                        </strong>
+                                      <small> '. $data['reason'] . ' nedeniyle Engelledi</small>
+                                      <strong>
+                                        <a href="'.route('filament.admin.resources.users.view', ['record' => $record]).'">
+                                            '.$record->name.'
+                                        </a>
+                                      </strong>
+                                       ',
+                        ]);
+
+                    }
+                    else {
+
+                        $suspensions = $record->suspensions->where('expires_at', '>', now());
+
+                        $suspensions->each->deleteQuietly();
+
+                        foreach ($suspensions as $suspension) {
+                            $suspension->log([
+                                'type' => $data['status'],
+                                'message' => '<strong>
+                                    <a href="' . route('filament.admin.resources.users.view', ['record' => auth()->user()]) . '">
+                                        ' . auth()->user()->name . '
+                                    </a>
+                                  </strong>
+                                  <small>' . $data['reason'] . ' nedeniyle Engelledi</small>
+                                  <strong>
+                                    <a href="' . route('filament.admin.resources.users.view', ['record' => $record]) . '">
+                                        ' . $record->name . '
+                                    </a>
+                                  </strong>',
+                            ]);
+
+                            $suspension->deleteQuietly();
+                        }
+                    }
+                }),
+
+
+        ];
     }
 
     public function infolist(Infolist $infolist): Infolist

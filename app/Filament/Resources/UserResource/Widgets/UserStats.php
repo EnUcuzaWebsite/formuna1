@@ -21,15 +21,15 @@ class UserStats extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Total Users', $this->getPageTableQuery()->count())
+            Stat::make('Toplam Kullanıcı', $this->getPageTableQuery()->count())
                 ->icon('heroicon-o-user-group'),
 
-            Stat::make('Suspended Users', $this->getPageTableQuery()->whereHas('suspensions', function ($query) {
+            Stat::make('Engellenen Kullanıcı', $this->getPageTableQuery()->whereHas('suspensions', function ($query) {
                 $query->where('status', 'suspended');
             })->count())
                 ->icon('heroicon-o-clock'),
 
-            Stat::make('Banned Users', $this->getPageTableQuery()->whereHas('suspensions', function ($query) {
+            Stat::make('Banlanan Kullanıcı', $this->getPageTableQuery()->whereHas('suspensions', function ($query) {
                 $query->where('status', 'banned');
             })->count())
                 ->icon('heroicon-o-no-symbol'),

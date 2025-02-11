@@ -51,18 +51,20 @@ class ListUsers extends ListRecords
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('İsim')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
+                    ->label('Email')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('roles.name')
-                    ->label('Roles')
+                    ->label('Rolleri')
                     ->searchable()
                     ->sortable()
                     ->listWithLineBreaks(),
                 IconColumn::make('status')
-                    ->label('Status')
+                    ->label('Durum')
                     ->default('active')
                     ->sortable()
                     ->icon(fn (string $state): string => match ($state) {
@@ -75,7 +77,7 @@ class ListUsers extends ListRecords
                         'inactive' => 'danger',
                     }),
                 IconColumn::make('suspensions.status')
-                    ->label('Suspension')
+                    ->label('Engel')
                     ->default('active')
                     ->sortable()
                     ->icon(fn (string $state): string => match ($state) {

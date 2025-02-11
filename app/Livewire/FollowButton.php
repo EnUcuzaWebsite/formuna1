@@ -58,7 +58,7 @@ class FollowButton extends Component implements HasActions, HasForms
                                     </a>
 
                                 </strong>
-                                <small> Takip Etti </small>
+                                <small> Takipten Çıkardı </small>
                                 <strong>
                                     <a href="'.route('filament.admin.resources.users.view', ['record' => $this->user]).'">
                                         '.$this->user->name.'

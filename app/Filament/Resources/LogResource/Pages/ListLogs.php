@@ -9,6 +9,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ListLogs extends ListRecords
@@ -28,10 +29,16 @@ class ListLogs extends ListRecords
             ->columns([
                 TextColumn::make('user.name')
                     ->label('Kullanıcı')
+                    ->searchable()
+                    ->sortable()
                     ->default('Sistem'),
                 TextColumn::make('loggable_type')
+                    ->searchable()
+                    ->sortable()
                     ->label('Loggable Type'),
                 TextColumn::make('log.type')
+                    ->searchable()
+                    ->sortable()
                     ->label('Log Tipi'),
                 TextColumn::make('created_at')
                     ->label('Tarih')
@@ -68,6 +75,30 @@ class ListLogs extends ListRecords
                                     ->label('Yeni'),
                             ]),
                     ])
+            ])
+            ->filters([
+                SelectFilter::make('log.type')
+                    ->label('Şikayet Tipi')
+                    ->native(false)
+                    ->options([
+                        'like' => 'Beğenme',
+                        'unlike' => 'Beğeni Kaldırma',
+                        'save' => 'Kaydetme',
+                        'unsave' => 'Kaydetme Kaldırma',
+                        'follow' => 'Takip',
+                        'unfollow' => 'Takipten Çıkarma',
+                        'updated' => 'Güncelleme',
+                        'created' => 'Oluşturma',
+                        'active post' => 'Post Aktif',
+                        'inactive post' => 'Post İnaktif',
+                        'suspended' => 'Kullanıcı Engel',
+                        'banned' => 'Kullanıcı Ban',
+                    ])
+                    ->query(function ($query, $data) {
+                        if ($data['value']) {
+                            $query->where('log->type', $data['value']);
+                        }
+                    }),
             ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Loggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +11,7 @@ class UserSuspension extends Model
 {
     /** @use HasFactory<\Database\Factories\UserSuspensionFactory> */
     use HasFactory;
+    use Loggable;
 
     protected $fillable = [
         'user_id',
