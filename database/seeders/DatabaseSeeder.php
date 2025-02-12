@@ -100,7 +100,6 @@ class DatabaseSeeder extends Seeder
                 'topic_id' => rand(1, count($topics)),
                 'title' => fake()->sentence(rand(4, 8)),
                 'content' => fake()->paragraphs(rand(3, 6), true),
-                'views' => rand(0, 1000),
                 'status' => 'active',
             ]);
 

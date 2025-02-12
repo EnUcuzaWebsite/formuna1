@@ -14,6 +14,7 @@
                             <h1 class="text-3xl font-bold">{{ $user->name }}</h1>
                             <div class="flex gap-x-4 items-center">
                                 <livewire:followers-modal :user="$user"/>
+                                <livewire:followed-modal :user="$user"/>
                                 <span
                                     class="bg-gray-600 px-4 py-1 text-sm flex items-center justify-center rounded-md cursor-pointer">
                                 {{ $user->forms->count() }} gönderi
@@ -22,8 +23,7 @@
                         </div>
                         <p class="text-gray-300 text-sm mt-2">{{ $user->email }}</p>
                         <p class="text-gray-300 text-sm">{{ $user->created_at->translatedFormat('d F Y H:i') }} ' den
-                            beri
-                            üye</p>
+                            beri üye</p>
                     </div>
                 </div>
                 <div class="">
@@ -42,65 +42,125 @@
             </div>
 
 
-            <div class="flex justify-center items-center mt-8">
-                <div class="flex gap-x-6 p-6">
-                    <div x-data="{ content_type: 'gonderiler' }" class="flex flex-col">
-                        <div class="flex justify-center gap-x-8 pb-4">
-                            <button
-                                @click="content_type = 'gonderiler'"
-                                :class="{ 'border-b-[1px] border-white text-gray-500' : content_type === 'gonderiler' }"
-                                class="text-white pb-1 text-sm hover:text-gray-400">
-                                Gönderiler
-                            </button>
-                            <button
-                                @click="content_type = 'yanitlar'"
-                                :class="{ 'border-b-[1px] border-white text-gray-500' : content_type === 'yanitlar' }"
-                                class="text-white pb-1 text-sm hover:text-gray-400">
-                                Yorumlar
-                            </button>
-                        </div>
+            <div x-data="{ content_type: 'gonderiler' }" class="flex flex-col mt-16">
+                <div class="flex gap-x-6 pb-4 justify-center">
+                    <button
+                        @click="content_type = 'gonderiler'"
+                        :class="{ 'bg-gradient-to-tr from-[#0f172a] via-[#1e293b] to-[#231f39] text-white' : content_type === 'gonderiler' }"
+                        class="text-gray-400 pb-2 text-sm px-6 py-3 rounded-full hover:bg-gray-800 hover:text-white transition-all duration-300 flex items-center gap-x-2">
+                        <x-heroicon-o-document-text class="w-5 h-5"/> Gönderiler
+                    </button>
+
+                    <button
+                        @click="content_type = 'yanitlar'"
+                        :class="{ 'bg-gradient-to-tr from-[#0f172a] via-[#1e293b] to-[#231f39] text-white' : content_type === 'yanitlar' }"
+                        class="text-gray-400 pb-2 text-sm px-6 py-3 rounded-full hover:bg-gray-800 hover:text-white transition-all duration-300 flex items-center gap-x-2">
+                        <x-heroicon-o-chat-bubble-left-ellipsis class="w-5 h-5"/> Yorumlar
+                    </button>
+
+                    @if(\Illuminate\Support\Facades\Auth::user() && Auth::user()->id == $user->id)
+                        <button
+                            @click="content_type = 'kaydedilenler'"
+                            :class="{ 'bg-gradient-to-tr from-[#0f172a] via-[#1e293b] to-[#231f39] text-white' : content_type === 'kaydedilenler' }"
+                            class="text-gray-400 pb-2 text-sm px-6 py-3 rounded-full hover:bg-gray-800 hover:text-white transition-all duration-300 flex items-center gap-x-2">
+                            <x-heroicon-o-bookmark class="w-5 h-5"/> Kaydedilenler
+                        </button>
+
+                        <button
+                            @click="content_type = 'begenilenler'"
+                            :class="{ 'bg-gradient-to-tr from-[#0f172a] via-[#1e293b] to-[#231f39] text-white' : content_type === 'begenilenler' }"
+                            class="text-gray-400 pb-2 text-sm px-6 py-3 rounded-full hover:bg-gray-800 hover:text-white transition-all duration-300 flex items-center gap-x-2">
+                            <x-heroicon-o-heart class="w-5 h-5"/> Beğenilenler
+                        </button>
+                    @endif
+                </div>
 
 
-                        <div class="p-6 rounded-xl">
-                            <template x-if="content_type === 'gonderiler'">
-                                <ul class="text-gray-200 text-center flex flex-col gap-y-4">
-                                    @foreach($user->forms as $form)
-                                        <livewire:post-view :post="$form" :nofollow="true"/>
-                                    @endforeach
-                                </ul>
-                            </template>
 
-                            <template x-if="content_type === 'yanitlar'">
-                                <div class="space-y-6 mt-6">
-                                    @foreach($user->comments as $comment)
-                                        <div class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700">
-                                            <div class="mb-3">
-                                                <a href="{{ route('post.show', $comment->post->id) }}">
-                                                    <h3 class="text-lg font-bold text-white">Gönderi</h3>
-                                                    <p class="text-gray-300 text-sm">
-                                                        {{ $comment->post->content ?? 'Gönderi Silinmiş veya Bulunamıyor' }}
-                                                    </p>
-                                                </a>
-                                            </div>
 
-                                            <div>
-                                                <h3 class="text-lg font-bold text-white">Yapılan Yorum</h3>
-                                                <p class="text-gray-200 text-sm">
-                                                    "{{ $comment->comment }}"
-                                                </p>
-                                            </div>
 
-                                            <div class="mt-4 text-right">
+                <div class="p-6 rounded-xl">
+                    <template x-if="content_type === 'gonderiler'">
+                        <ul class="text-gray-200 text-center flex flex-col gap-y-4">
+                            @foreach($user->forms as $form)
+                                <livewire:post-view :post="$form" :nofollow="true"/>
+                            @endforeach
+                        </ul>
+                    </template>
+
+                    <template x-if="content_type === 'yanitlar'">
+                        <div class="space-y-6 mt-6">
+                            @foreach($user->comments as $comment)
+                                <div class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700">
+                                    <div class="mb-3">
+                                        <a href="{{ route('post.show', $comment->post->id) }}">
+                                            <h3 class="text-lg font-bold text-white">Gönderi</h3>
+                                            <p class="text-gray-300 text-sm">
+                                                {{ $comment->post->content ?? 'Gönderi Silinmiş veya Bulunamıyor' }}
+                                            </p>
+                                        </a>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="text-lg font-bold text-white">Yapılan Yorum</h3>
+                                        <p class="text-gray-200 text-sm">
+                                            "{{ $comment->comment }}"
+                                        </p>
+                                    </div>
+
+                                    <div class="mt-4 text-right">
                                             <span class="text-xs text-gray-500">
                                                 {{ $comment->created_at->translatedFormat('d F Y H:i') }}
                                             </span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </template>
+
+                    <template x-if="content_type === 'kaydedilenler'">
+                        <ul class="text-gray-200 text-center flex flex-col gap-y-4 mt-6">
+                            @foreach($user->savedForms as $saved_form)
+                                <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer">
+                                    <a href="{{ route("post.show", $saved_form->post->id) }}">
+                                        <div class="flex items-center gap-4">
+                                            <div class="bg-gray-900 p-3 rounded-lg">
+                                                <x-heroicon-s-bookmark class="w-8 h-8 text-gray-400"/>
+                                            </div>
+                                            <div class="text-left">
+                                                <p class="text-lg font-semibold text-white">Form
+                                                    #{{ $saved_form->post->title }}</p>
+                                                <p class="text-xs text-gray-400">{{ $saved_form->created_at->translatedFormat('d F Y H:i') }}</p>
                                             </div>
                                         </div>
-                                    @endforeach
-                                </div>
-                            </template>
-                        </div>
-                    </div>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </template>
+
+
+                    <template x-if="content_type === 'begenilenler'">
+                        <ul class="text-gray-200 text-center flex flex-col gap-y-4 mt-6">
+                            @foreach($user->likedForms as $liked_forms)
+                                <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer">
+                                    <a href="{{ route("post.show", $liked_forms->post->id) }}">
+                                        <div class="flex items-center gap-4">
+                                            <div class="bg-gray-900 p-3 rounded-lg">
+                                                <x-heroicon-s-hand-thumb-up class="w-8 h-8 text-gray-400"/>
+                                            </div>
+                                            <div class="text-left">
+                                                <p class="text-lg font-semibold text-white">Form
+                                                    #{{ $liked_forms->post->title }}</p>
+                                                <p class="text-xs text-gray-400">{{ $liked_forms->created_at->translatedFormat('d F Y H:i') }}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </template>
+
                 </div>
             </div>
 

@@ -1,11 +1,10 @@
-<div class="h-screen w-screen flex" x-data="{ sidebarContent: 'default' }">
+<div class="flex w-screen h-screen" x-data="{ sidebarContent: 'default' }">
     <x-aside.left-sidebar/>
-
-    <div class="flex-1 flex-col">
+    <div class="flex-col flex-1">
         <livewire:header/>
 
-        <div class="grid grid-cols-12 justify-between">
-            <main class=" col-span-9 p-5 w-full h-[calc(100vh-80px)] overflow-auto">
+        <div class="grid justify-between grid-cols-12">
+            <main class="col-span-9 p-5 w-full h-[calc(100vh-80px)] overflow-auto">
                 {{ $slot }}
             </main>
             <livewire:right-sidebar/>
