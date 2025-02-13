@@ -132,6 +132,7 @@
                                             </div>
                                             <div class="text-left">
                                                 <p class="text-lg font-semibold text-white">
+
                                                     {{ $saved_form->post->title }}</p>
                                                 <p class="text-xs text-gray-400">{{ $saved_form->created_at->translatedFormat('d F Y H:i') }}</p>
                                             </div>
@@ -153,7 +154,9 @@
                                                 <x-heroicon-s-hand-thumb-up class="w-8 h-8 text-gray-400"/>
                                             </div>
                                             <div class="text-left">
+
                                                 <p class="text-lg font-semibold text-white">
+
                                                     {{ $liked_forms->post->title }}</p>
                                                 <p class="text-xs text-gray-400">{{ $liked_forms->created_at->translatedFormat('d F Y H:i') }}</p>
                                             </div>
