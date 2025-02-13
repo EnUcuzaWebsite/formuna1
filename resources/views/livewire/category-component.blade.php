@@ -6,7 +6,9 @@
             <div
                 class="flex items-center space-x-4 p-4  hover:bg-gray-600 transition duration-200 rounded-lg cursor-pointer">
                 <div class="flex-1">
-                    <h3 class="text-lg font-semibold">{{ $category->name }}</h3>
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold">{{ $category->name }}</h3>
+                    </div>
                     <div class="flex flex-wrap gap-2 mt-1">
                         @foreach($category->topics as $topic)
                             <span class="text-blue-500 text-sm font-medium">#{{ $topic->name }}</span>

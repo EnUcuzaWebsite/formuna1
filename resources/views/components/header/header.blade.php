@@ -4,18 +4,6 @@ use App\Models\User;
 
 $name = User::find(auth()->user()->id)->name;
 
-$dropdownList = [
-    [
-        "title" => "Profil",
-        "icon" => "users",
-        "route" => "home"
-    ],
-    [
-        "title" => "Ayarlar",
-        "icon" => "cog",
-        "route" => "home"
-    ],
-]
 ?>
 
 <header class="h-20 border-b border-gray-800 flex items-center justify-between px-8">
@@ -54,17 +42,22 @@ $dropdownList = [
 
                 <div x-show="profileOpen" x-cloak class="bg-gray-800 rounded-md p-2 z-50 absolute top-full mt-1 left-1 w-[140px]">
                     <ul class="flex flex-col gap-y-1 items-start text-sm">
-                        @foreach($dropdownList as $item)
-                            <li wire:click="{{ route($item["route"]) }}"
+                            <a href="{{ route('user.details', auth()->user()) }}" wire:navigate
                                 class="hover:bg-gray-600 p-2 transition-colors duration-200 cursor-pointer text-left rounded-md w-full flex justify-start gap-x-2 items-center">
-                                <x-icon name="heroicon-o-{{ $item['icon'] }}" class="size-4"/>
+                                <x-icon name="heroicon-o-user" class="size-4"/>
                                 <span>
-                                {{ $item["title"] }}
+                                    Profil
                                 </span>
-                            </li>
-                        @endforeach
+                            </a>
+                            <a href="{{ route('home') }}" wire:navigate
+                                class="hover:bg-gray-600 p-2 transition-colors duration-200 cursor-pointer text-left rounded-md w-full flex justify-start gap-x-2 items-center">
+                                <x-icon name="heroicon-o-cog" class="size-4"/>
+                                <span>
+                                    Ayarlar
+                                </span>
+                            </a>
                         @if ($is_admin)
-                            <a href="/admin"
+                            <a href="/admin" wire:navigate
                                class="hover:bg-gray-600 transition-colors duration-200 p-2 text-left cursor-pointer rounded-md w-full flex justify-start gap-x-2 items-center">
                                 <x-icon name="heroicon-o-home" class="size-4"/>
                                 <span>

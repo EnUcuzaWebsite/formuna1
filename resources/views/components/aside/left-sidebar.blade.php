@@ -8,14 +8,19 @@
 
         <ul class="flex flex-col gap-y-4 pt-10">
             @foreach($sidebar_list as $item)
-                <li class="flex items-center gap-3 hover:bg-gray-600 rounded-md h-10 px-3 cursor-pointer group
+                <a href="{{ route($item['path']) }}" wire:navigate class="flex items-center gap-3 hover:bg-gray-600 rounded-md h-10 px-3 cursor-pointer group
                        {{ request()->routeIs($item['path']) ? 'bg-gray-600' : '' }}">
                     <x-icon name="heroicon-s-{{ $item['icon'] }}" class="size-4 hidden group-hover:block"/>
-                    <x-icon name="heroicon-o-{{ $item['icon'] }}" class="size-4 group-hover:hidden"/>
-                    <a href="{{ route($item['path']) }}" wire:navigate>
+                    @if(request()->routeIs($item['path']))
+                        <x-icon name="heroicon-s-{{ $item['icon'] }}" class="size-4 group-hover:hidden"/>
+                    @else
+                        <x-icon name="heroicon-o-{{ $item['icon'] }}" class="size-4 group-hover:hidden"/>
+                    @endif
+
+                        <span>
                         {{ $item['title'] }}
-                    </a>
-                </li>
+                    </span>
+                </a>
             @endforeach
         </ul>
     </aside>

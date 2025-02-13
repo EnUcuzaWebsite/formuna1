@@ -16,8 +16,6 @@ class CategoryComponent extends Component
 
     public function render()
     {
-        return view('livewire.category-component', [
-            'categories' => $this->categories
-        ]);
+        return view('livewire.category-component');
     }
 }

@@ -79,9 +79,6 @@
                 </div>
 
 
-
-
-
                 <div class="p-6 rounded-xl">
                     <template x-if="content_type === 'gonderiler'">
                         <ul class="text-gray-200 text-center flex flex-col gap-y-4">
@@ -123,21 +120,21 @@
 
                     <template x-if="content_type === 'kaydedilenler'">
                         <ul class="text-gray-200 text-center flex flex-col gap-y-4 mt-6">
-                            @foreach($user->savedForms as $saved_form)
-                                <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer">
-                                    <a href="{{ route("post.show", $saved_form->post->id) }}">
+                            @foreach($user->savedPosts as $saved_post)
+                                <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer flex justify-between">
+                                    <a href="{{ route("post.show", $saved_post->post->id) }}">
                                         <div class="flex items-center gap-4">
                                             <div class="bg-gray-900 p-3 rounded-lg">
                                                 <x-heroicon-s-bookmark class="w-8 h-8 text-gray-400"/>
                                             </div>
                                             <div class="text-left">
-                                                <p class="text-lg font-semibold text-white">
-
-                                                    {{ $saved_form->post->title }}</p>
-                                                <p class="text-xs text-gray-400">{{ $saved_form->created_at->translatedFormat('d F Y H:i') }}</p>
+                                                <p class="text-lg font-semibold text-white hover:text-violet-200">
+                                                    {{ $saved_post->post->title }}</p>
+                                                <p class="text-xs text-gray-400">{{ $saved_post->created_at->translatedFormat('d F Y H:i') }}</p>
                                             </div>
                                         </div>
                                     </a>
+                                    <livewire:save-button :post="$saved_post->post"/>
                                 </li>
                             @endforeach
                         </ul>
@@ -146,22 +143,21 @@
 
                     <template x-if="content_type === 'begenilenler'">
                         <ul class="text-gray-200 text-center flex flex-col gap-y-4 mt-6">
-                            @foreach($user->likedForms as $liked_forms)
-                                <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer">
-                                    <a href="{{ route("post.show", $liked_forms->post->id) }}">
+                            @foreach($user->likedPosts as $liked_post)
+                                <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer flex justify-between">
+                                    <a href="{{ route("post.show", $liked_post->post->id) }}">
                                         <div class="flex items-center gap-4">
                                             <div class="bg-gray-900 p-3 rounded-lg">
                                                 <x-heroicon-s-hand-thumb-up class="w-8 h-8 text-gray-400"/>
                                             </div>
                                             <div class="text-left">
-
-                                                <p class="text-lg font-semibold text-white">
-
-                                                    {{ $liked_forms->post->title }}</p>
-                                                <p class="text-xs text-gray-400">{{ $liked_forms->created_at->translatedFormat('d F Y H:i') }}</p>
+                                                <p class="text-lg font-semibold text-white hover:text-violet-200">
+                                                    {{ $liked_post->post->title }}</p>
+                                                <p class="text-xs text-gray-400">{{ $liked_post->created_at->translatedFormat('d F Y H:i') }}</p>
                                             </div>
                                         </div>
                                     </a>
+                                    <livewire:like-button :post="$liked_post->post"/>
                                 </li>
                             @endforeach
                         </ul>

@@ -82,12 +82,12 @@ class User extends Authenticatable implements FilamentUser, HasMedia
         return $this->hasMany(Comment::class);
     }
 
-    public function likedForms(): HasMany
+    public function likedPosts(): HasMany
     {
         return $this->hasMany(LikedPost::class);
     }
 
-    public function savedForms(): HasMany
+    public function savedPosts(): HasMany
     {
         return $this->hasMany(SavedPost::class);
     }

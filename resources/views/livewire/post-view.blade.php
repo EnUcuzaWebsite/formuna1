@@ -15,7 +15,6 @@
 
             <span class="text-xs">{{ $post->created_at->translatedFormat('d F Y H:i') }}</span>
         </div>
-
         <div class="flex items-center">
             <livewire:like-button :post="$post"/>
             <livewire:post-action-group :post="$post"/>
@@ -24,10 +23,15 @@
 
     <a href="{{ route('post.show', ['post' => $post->id]) }}">
         <main class="flex flex-col gap-y-2 pl-2">
-            <h4 class="font-medium text-[16px]">{{ $post->title }}</h4>
-            <p class="text-zinc-200 text-sm">
-                {{ strip_tags($post->content) }}
+            <h4 class="font-medium text-[18px]">{{ $post->title }}</h4>
+            <p class="text-zinc-200 text-sm mt-2">
+                {{ Str::limit(strip_tags($post->content), 150, '...') }}
             </p>
+            <a href="{{ route('post.show', ['post' => $post->id]) }}" class="text-sm text-indigo-500">okumaya devam et</a>
         </main>
     </a>
+    <div class="text-xs flex gap-2 text-gray-200 pl-2"">
+        <span>{{ $post->category->name }}</span>
+        <i>#{{ $post->topic->name }}</i>
+    </div>
 </section>
