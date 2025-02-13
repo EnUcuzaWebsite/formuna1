@@ -129,7 +129,7 @@
                                             </div>
                                             <div class="text-left">
                                                 <p class="text-lg font-semibold text-white">Form
-                                                    #{{ $saved_form->post->title }}</p>
+                                                    {{ $saved_form->post->title }}</p>
                                                 <p class="text-xs text-gray-400">{{ $saved_form->created_at->translatedFormat('d F Y H:i') }}</p>
                                             </div>
                                         </div>
@@ -151,7 +151,7 @@
                                             </div>
                                             <div class="text-left">
                                                 <p class="text-lg font-semibold text-white">Form
-                                                    #{{ $liked_forms->post->title }}</p>
+                                                    {{ $liked_forms->post->title }}</p>
                                                 <p class="text-xs text-gray-400">{{ $liked_forms->created_at->translatedFormat('d F Y H:i') }}</p>
                                             </div>
                                         </div>

@@ -1,5 +1,5 @@
 <div class="flex w-screen h-screen" x-data="{ sidebarContent: 'default' }">
-    <x-aside.left-sidebar/>
+  <livewire:left-sidebar/>
     <div class="flex-col flex-1">
         <livewire:header/>
 
