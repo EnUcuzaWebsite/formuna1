@@ -1,6 +1,6 @@
 <x-layouts.user-details-layout>
 
-    <div class="h-auto min-h-screen">
+    <div class="h-auto max-h-screen overflow-auto">
         <section class="text-white rounded-2xl p-8">
             <div class="flex justify-between">
                 <div class="flex items-center gap-8">
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="">
-                    <div class="px-4 py-2 flex gap-x-2 cursor-pointer items-center">
+                    <div class="px-4 py-2 flex gap-x-2 cursor-pointer items-center mt-[13px]">
                         <livewire:follow-button :user="$user" :button="true"/>
                         <livewire:report-action :user="$user"/>
                         @if($user->id === auth()->user()->id)
@@ -119,48 +119,60 @@
                     </template>
 
                     <template x-if="content_type === 'kaydedilenler'">
-                        <ul class="text-gray-200 text-center flex flex-col gap-y-4 mt-6">
-                            @foreach($user->savedPosts as $saved_post)
-                                <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer flex justify-between">
-                                    <a href="{{ route("post.show", $saved_post->post->id) }}">
-                                        <div class="flex items-center gap-4">
-                                            <div class="bg-gray-900 p-3 rounded-lg">
-                                                <x-heroicon-s-bookmark class="w-8 h-8 text-gray-400"/>
+                       @if($user->savedPosts->count())
+                            <ul class="text-gray-200 text-center flex flex-col gap-y-4 mt-6">
+                                @foreach($user->savedPosts as $saved_post)
+                                    <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer flex justify-between">
+                                        <a href="{{ route("post.show", $saved_post->post->id) }}">
+                                            <div class="flex items-center gap-4">
+                                                <div class="bg-gray-900 p-3 rounded-lg">
+                                                    <x-heroicon-s-bookmark class="w-8 h-8 text-gray-400"/>
+                                                </div>
+                                                <div class="text-left">
+                                                    <p class="text-lg font-semibold text-white hover:text-violet-200">
+                                                        {{ $saved_post->post->title }}</p>
+                                                    <p class="text-xs text-gray-400">{{ $saved_post->created_at->translatedFormat('d F Y H:i') }}</p>
+                                                </div>
                                             </div>
-                                            <div class="text-left">
-                                                <p class="text-lg font-semibold text-white hover:text-violet-200">
-                                                    {{ $saved_post->post->title }}</p>
-                                                <p class="text-xs text-gray-400">{{ $saved_post->created_at->translatedFormat('d F Y H:i') }}</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <livewire:save-button :post="$saved_post->post"/>
-                                </li>
-                            @endforeach
-                        </ul>
+                                        </a>
+                                        <livewire:save-button :post="$saved_post->post"/>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="text-gray-500 text-center text-lg">
+                                Henüz kaydedilmiş bir form bulunmuyor. 🌿
+                            </p>
+                        @endif
                     </template>
 
 
                     <template x-if="content_type === 'begenilenler'">
-                        <ul class="text-gray-200 text-center flex flex-col gap-y-4 mt-6">
-                            @foreach($user->likedPosts as $liked_post)
-                                <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer flex justify-between">
-                                    <a href="{{ route("post.show", $liked_post->post->id) }}">
-                                        <div class="flex items-center gap-4">
-                                            <div class="bg-gray-900 p-3 rounded-lg">
-                                                <x-heroicon-s-hand-thumb-up class="w-8 h-8 text-gray-400"/>
+                        @if($user->likedPosts->count())
+                            <ul class="text-gray-200 text-center flex flex-col gap-y-4 mt-6">
+                                @foreach($user->likedPosts as $liked_post)
+                                    <li class="p-5 bg-gray-800 rounded-xl shadow-lg border border-gray-700 cursor-pointer flex justify-between">
+                                        <a href="{{ route("post.show", $liked_post->post->id) }}">
+                                            <div class="flex items-center gap-4">
+                                                <div class="bg-gray-900 p-3 rounded-lg">
+                                                    <x-heroicon-s-hand-thumb-up class="w-8 h-8 text-gray-400"/>
+                                                </div>
+                                                <div class="text-left">
+                                                    <p class="text-lg font-semibold text-white hover:text-violet-200">
+                                                        {{ $liked_post->post->title }}</p>
+                                                    <p class="text-xs text-gray-400">{{ $liked_post->created_at->translatedFormat('d F Y H:i') }}</p>
+                                                </div>
                                             </div>
-                                            <div class="text-left">
-                                                <p class="text-lg font-semibold text-white hover:text-violet-200">
-                                                    {{ $liked_post->post->title }}</p>
-                                                <p class="text-xs text-gray-400">{{ $liked_post->created_at->translatedFormat('d F Y H:i') }}</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <livewire:like-button :post="$liked_post->post"/>
-                                </li>
-                            @endforeach
-                        </ul>
+                                        </a>
+                                        <livewire:like-button :post="$liked_post->post"/>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="text-gray-500 text-center text-lg">
+                                Henüz beğenilen bir form bulunmuyor. 🌿
+                            </p>
+                        @endif
                     </template>
 
                 </div>
