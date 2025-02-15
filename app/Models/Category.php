@@ -44,4 +44,13 @@ class Category extends Model
     {
         return $this->hasMany(FavoriteCategory::class);
     }
+
+    public function scopeMostSharedTopics($query, $count = 1)
+    {
+        return $this->topics()
+            ->withCount('posts')
+            ->orderByDesc('posts_count')
+            ->limit($count)
+            ->get();
+    }
 }

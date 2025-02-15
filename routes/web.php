@@ -24,6 +24,8 @@ Route::group(['middleware' => 'auth'], function () {
     Volt::route("/saved", \App\Livewire\SavedFormsComponent::class)->name('saved.forms');
     Volt::route("/liked", \App\Livewire\LikedFormComponent::class)->name('liked.forms');
     Volt::route("/categories", \App\Livewire\CategoryComponent::class)->name('categories');
+    Volt::route("/category/{category}", \App\Livewire\CategoryDetail::class)->name('category.detail');
+    Volt::route("/topic/{topic}", \App\Livewire\TopicDetail::class)->name('topic.detail');
 });
 
 require __DIR__.'/auth.php';

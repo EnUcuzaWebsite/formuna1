@@ -78,7 +78,7 @@ class ListLogs extends ListRecords
             ])
             ->filters([
                 SelectFilter::make('log.type')
-                    ->label('Şikayet Tipi')
+                    ->label('Log Tipi')
                     ->native(false)
                     ->options([
                         'like' => 'Beğenme',
