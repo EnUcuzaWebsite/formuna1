@@ -70,7 +70,7 @@ class PostActionGroup extends Component implements HasActions, HasForms
     public function saveAction(): Action
     {
         return Action::make('save')
-            ->hiddenLabel()
+            ->label('Kaydet')
             ->icon($this->post->issaved() ? 'heroicon-s-bookmark' : 'heroicon-o-bookmark')
             ->action(function () {
                 if ($this->post->issaved()) {

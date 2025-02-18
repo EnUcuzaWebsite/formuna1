@@ -1,8 +1,8 @@
 <x-layouts.user-details-layout>
 
     <div class="h-auto max-h-screen overflow-auto">
-        <section class="text-white rounded-2xl p-8">
-            <div class="flex justify-between">
+        <section class="text-white rounded-2xl">
+            <div class="flex justify-between p-4">
                 <div class="flex items-center gap-8">
                     <img
                         src="{{ $user->getFilamentAvatarUrl() }}"
@@ -26,7 +26,7 @@
                             beri üye</p>
                     </div>
                 </div>
-                <div class="">
+                <div>
                     <div class="px-4 py-2 flex gap-x-2 cursor-pointer items-center mt-[13px]">
                         <livewire:follow-button :user="$user" :button="true"/>
                         <livewire:report-action :user="$user"/>
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="mt-8">
+            <div class="mt-8 p-4">
                 <h2 class="text-xl font-semibold mb-4">Hakkında</h2>
                 <p class="text-gray-300">
                     {{ $user->bio ?? 'Bu kullanıcı henüz biyografi eklememiş.' }}
@@ -79,7 +79,7 @@
                 </div>
 
 
-                <div class="p-6 rounded-xl">
+                <div class="rounded-xl">
                     <template x-if="content_type === 'gonderiler'">
                         <ul class="text-gray-200 flex flex-col gap-y-4">
                             @foreach($user->forms as $form)
