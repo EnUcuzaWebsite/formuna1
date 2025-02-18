@@ -5,12 +5,26 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\Widgets\UserStats;
 use App\Models\User;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Pages\Page;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 
-class UserResource extends Resource
+class UserResource extends Resource implements HasShieldPermissions
 {
+    public static function getPermissionPrefixes(): array
+    {
+        return [
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'delete',
+            'delete_any',
+            'publish'
+        ];
+    }
+
     protected static ?string $model = User::class;
 
     protected static ?string $navigationLabel = 'Kullanıcılar';

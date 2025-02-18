@@ -61,10 +61,6 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-home'),
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
             ->plugins([
                 FilamentBackgroundsPlugin::make(),
                 FilamentShieldPlugin::make(),

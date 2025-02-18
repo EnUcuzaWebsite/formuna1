@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Filament\Resources\SaveResource\Pages;
+namespace App\Filament\Resources\SavedPostResource\Pages;
 
-use App\Filament\Resources\SaveResource;
+use App\Filament\Resources\SavedPostResource;
 use App\Models\SavedPost;
+use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ListSaves extends ListRecords
+class ListSavedPosts extends ListRecords
 {
-    protected static string $resource = SaveResource::class;
+    protected static string $resource = SavedPostResource::class;
 
     protected static ?string $title = 'Kaydetmeler';
 
@@ -23,12 +24,12 @@ class ListSaves extends ListRecords
                     ->color('success')
                     ->searchable()
                     ->sortable()
-                    ->url(fn (SavedPost $record) => route('filament.admin.resources.users.view', $record->user)),
+                    ->url(fn(SavedPost $record) => route('filament.admin.resources.users.view', $record->user)),
                 TextColumn::make('post.title')
                     ->label('Post')
                     ->color('info')
                     ->searchable()
-                    ->url(fn (SavedPost $record) => route('filament.admin.resources.posts.view', $record->post)),
+                    ->url(fn(SavedPost $record) => route('filament.admin.resources.posts.view', $record->post)),
 
             ]);
     }

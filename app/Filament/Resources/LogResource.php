@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LogResource\Pages;
 use App\Models\Log;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,6 +15,8 @@ class LogResource extends Resource
     protected static ?string $model = Log::class;
 
     protected static ?string $navigationLabel = 'Loglar';
+
+    protected static ?string $navigationGroup = 'Loglar';
 
     protected static ?int $navigationSort = 9;
 

@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Filament\Resources\LikeResource\Pages;
+namespace App\Filament\Resources\LikedPostResource\Pages;
 
-use App\Filament\Resources\LikeResource;
+use App\Filament\Resources\LikedPostResource;
 use App\Models\LikedPost;
+use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ListLikes extends ListRecords
+class ListLikedPosts extends ListRecords
 {
-    protected static string $resource = LikeResource::class;
+    protected static string $resource = LikedPostResource::class;
+
 
     protected static ?string $title = 'Beğenmeler';
 
@@ -23,13 +25,13 @@ class ListLikes extends ListRecords
                     ->color('success')
                     ->searchable()
                     ->sortable()
-                    ->url(fn (LikedPost $record) => route('filament.admin.resources.users.view', $record->user)),
+                    ->url(fn(LikedPost $record) => route('filament.admin.resources.users.view', $record->user)),
                 TextColumn::make('post.title')
                     ->label('Post')
                     ->color('info')
                     ->searchable()
                     ->sortable()
-                    ->url(fn (LikedPost $record) => route('filament.admin.resources.posts.view', $record->post)),
+                    ->url(fn(LikedPost $record) => route('filament.admin.resources.posts.view', $record->post)),
                 TextColumn::make('created_at')
                     ->label('Tarih')
                     ->datetime()

@@ -19,6 +19,8 @@ class ReportResource extends Resource
 
     protected static ?string $navigationLabel = 'Şikayetler';
 
+    protected static ?string $navigationGroup = 'Loglar';
+
     protected static ?int $navigationSort = 10;
 
     public static function getNavigationIcon(): string

@@ -13,6 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        $this->call([
+            ShieldSeeder::class,
+        ]);
+
+
         // Create users with motorsports-themed usernames
         $motorsportDrivers = [
             'MaxVerstappen',
@@ -33,7 +39,8 @@ class DatabaseSeeder extends Seeder
             'password' => '123',
             'bio' => 'Hamilton fanıyım, Ferrari seviyom ve F1 seyircisiyim.',
             'status' => 'active',
-        ]);
+        ])->assignRole('super_admin');
+
 
         \App\Models\User::create([
             'name' => 'Test Kullanıcı',
@@ -41,13 +48,13 @@ class DatabaseSeeder extends Seeder
             'password' => '123',
             'bio' => 'Hamilton fanıyım, Ferrari seviyom ve F1 seyircisiyim.',
             'status' => 'active',
-        ]);
+        ])->assignRole('Panel Admin');
 
         foreach ($motorsportDrivers as $username) {
             \App\Models\User::create([
                 'name' => $username,
-                'email' => strtolower($username).'@example.com',
-                'password' => bcrypt('password'),
+                'email' => strtolower($username) . '@example.com',
+                'password' => '123',
                 'bio' => fake()->sentence(20),
                 'status' => 'active',
             ]);
