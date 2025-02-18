@@ -2,7 +2,7 @@
     <header class="flex items-center justify-between ">
         <div class="flex items-center gap-4 relative">
             <div class="flex items-center gap-1 relative">
-                @if($this->is_detail)
+                @if(!$this->is_detail)
                     <a href="{{ route("user.details", $post->user) }}" class="flex items-center gap-2">
                         <img src="{{  $post->user->getFilamentAvatarUrl() }}" class="rounded-full h-8 w-8" alt="">
                         <span class="text-sm">{{ $post->user->name }}</span>
